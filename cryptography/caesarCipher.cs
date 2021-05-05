@@ -63,18 +63,6 @@ namespace cryptography
             return int.Parse(skip);
         }
 
-        public static List<int> GetIndex (string fullText, char val){
-            var foundIndexes = new List<int>();
-        
-            // for loop end when i=-1 ('a' not found)
-            for (int i = fullText.IndexOf(val); i > -1; i = fullText.IndexOf(val, i + 1))
-            {
-                foundIndexes.Add(i);
-            }
-
-            return foundIndexes;
-        }
-
         private static string ReplaceVals(string fileString, int skip){
             
             StringBuilder osb = new StringBuilder(fileString);
@@ -82,7 +70,7 @@ namespace cryptography
 
             for (int i = 1; i <= 26; i++)
             {
-                var ulocs = GetIndex(osb.ToString(), (char)(i+64));
+                var ulocs = sharedLib.GetCharIndexInString(osb.ToString(), (char)(i+64));
 
                 foreach (var uloc in ulocs)
                 {
@@ -95,7 +83,7 @@ namespace cryptography
                     }
                 }
 
-                var llocs = GetIndex(osb.ToString(), (char)(i+96));
+                var llocs = sharedLib.GetCharIndexInString(osb.ToString(), (char)(i+96));
 
                 foreach (var lloc in llocs)
                 {

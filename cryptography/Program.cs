@@ -7,29 +7,42 @@ namespace cryptography
     class Program
     {
         private static caesarCipher caesar = new caesarCipher();
+        private static simpleSubCipher simpleSub = new simpleSubCipher();
         static void Main(string[] args)
         {
-            Console.WriteLine("Cryptography.");
-            Console.WriteLine("");
-            Console.WriteLine("Select algorithm below to encrypt/decrypt files.");
-            Console.WriteLine("");
-            Console.WriteLine("1. Caesar cypher");
+            var exit = false;
+            do
+            {
+                Console.WriteLine("Cryptography.");
+                Console.WriteLine("");
+                Console.WriteLine("Select algorithm below to encrypt/decrypt files.");
+                Console.WriteLine("");
+                Console.WriteLine("1. Caesar cypher");
+                Console.WriteLine("2. Simple substitution cypher");
+                Console.WriteLine("9. Exit");
 
-            var option = Console.ReadLine();
+                var option = Console.ReadLine();
 
-            if (sharedLib.validateOption(option, new int[] {1})){
-                var optionValue = int.Parse(option);
-                switch (optionValue)
-                {
-                    case 1:
-                        caesar.run();
-                        break;
-                    default:
-                        break;
+                if (sharedLib.validateOption(option, new int[] {1,2,9})){
+                    var optionValue = int.Parse(option);
+                    switch (optionValue)
+                    {
+                        case 1:
+                            caesar.run();
+                            break;
+                        case 2:
+                            simpleSub.run();
+                            break;
+                        case 9:
+                            exit = true;
+                            break;
+                        default:
+                            break;
+                    }
+                } else {
+                    Console.WriteLine("Input invalid.");
                 }
-            } else {
-                Console.WriteLine("Input invalid.");
-            }
+            } while (!exit);
         }
     }
 }
