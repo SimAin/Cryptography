@@ -25,7 +25,7 @@ namespace cryptography
                         encode(ekey);
                         break;  
                     case 2:
-                        var dkey = inputKey();
+                        var dkey = sharedLib.inputKey();
                         decode(dkey);
                         break;
                     default:
@@ -74,29 +74,6 @@ namespace cryptography
             return csb.ToString();
         }
 
-        private List<char> inputKey()
-        {
-            var valid = true;
-            var key = new List<char>();
-            do
-            {
-                Console.WriteLine("Enter Key:");
-                var input = Console.ReadLine();
-                if (input.Length == 26){
-                    char[] charList = new char[input.Length];
-                    charList = input.ToLower().ToCharArray();
-                    foreach (var c in charList)
-                    {
-                        key.Add(c);
-                    }
-                } else {
-                    valid = false;
-                }
-            } while (!valid);
-
-            return key;
-        }
-
         private List<char> identifyKey()
         {
             var key = new List<char>();
@@ -114,7 +91,7 @@ namespace cryptography
                     switch (option)
                     {
                         case 1:
-                            key = generateRandomKey();
+                            key = sharedLib.generateRandomKey();
                             break;
                         case 2:
                             key = generatePhraseKey();
@@ -127,32 +104,6 @@ namespace cryptography
                     Console.WriteLine("Input error retry.");
                 }
             } while (!valid);
-
-            return key;
-        }
-
-        private List<char> generateRandomKey()
-        {
-            var key = new List<char>();
-            var keyPlacement = new List<int>();
-
-            do
-            {
-                RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
-                var byteArray = new byte[4];
-                provider.GetBytes(byteArray);
-
-                var randomInteger = (BitConverter.ToInt32(byteArray, 0) % 26) + 1;
-
-                if (!keyPlacement.Contains(randomInteger) && (randomInteger < 27 && (randomInteger > 0))) {
-                    keyPlacement.Add(randomInteger);
-                }
-            } while (keyPlacement.Count < 26);
-
-            foreach (var item in keyPlacement)
-            {
-                key.Add((char)(item+96));
-            }
 
             return key;
         }

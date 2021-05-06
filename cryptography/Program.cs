@@ -8,22 +8,27 @@ namespace cryptography
     {
         private static caesarCipher caesar = new caesarCipher();
         private static simpleSubCipher simpleSub = new simpleSubCipher();
+        private static playfairCypher playfair = new playfairCypher();
         static void Main(string[] args)
         {
             var exit = false;
             do
             {
+                Console.WriteLine("");
+                Console.WriteLine("------------------------------------");
+                Console.WriteLine("");
                 Console.WriteLine("Cryptography.");
                 Console.WriteLine("");
                 Console.WriteLine("Select algorithm below to encrypt/decrypt files.");
                 Console.WriteLine("");
                 Console.WriteLine("1. Caesar cypher");
                 Console.WriteLine("2. Simple substitution cypher");
+                Console.WriteLine("3. Playfair cypher");
                 Console.WriteLine("9. Exit");
 
                 var option = Console.ReadLine();
 
-                if (sharedLib.validateOption(option, new int[] {1,2,9})){
+                if (sharedLib.validateOption(option, new int[] {1,2,3,9})){
                     var optionValue = int.Parse(option);
                     switch (optionValue)
                     {
@@ -32,6 +37,9 @@ namespace cryptography
                             break;
                         case 2:
                             simpleSub.run();
+                            break;
+                        case 3:
+                            playfair.run();
                             break;
                         case 9:
                             exit = true;
