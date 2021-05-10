@@ -8,13 +8,9 @@ namespace cryptography
     public class playfairCypher 
     {
         public void run(){
-            Console.WriteLine("Notes: ");
-            Console.WriteLine("Select option: ");
-            Console.WriteLine("1. Encode ");
-            Console.WriteLine("2. Decode ");
-
+            printMenu();
             var option = Console.ReadLine();
-            if (sharedLib.validateOption(option, new int[] {1,2})){
+            if (sharedLib.validateOption(option, new int[] {1,2,9})){
                 var optionValue = int.Parse(option);
 
                 switch (optionValue)
@@ -30,6 +26,8 @@ namespace cryptography
                         var dkey = processKey(inputKey);
                         decode(dkey);
                         break;
+                    case 9:
+                        break;
                     default:
                         break;
                 }
@@ -40,7 +38,7 @@ namespace cryptography
             var fileString = File.ReadAllText("files/input.txt");
             var message = prepMessage(fileString);
             var output = ReplaceVals(message, key, true);
-            Console.WriteLine(output);
+            printMessage(output, true);
             File.WriteAllTextAsync("files/output.txt", output);
         }
 
@@ -48,7 +46,7 @@ namespace cryptography
             var fileString = File.ReadAllText("files/output.txt");
             var message = dSplitMessage(fileString);
             var output = ReplaceVals(message, key, false);
-            Console.WriteLine(output);
+            printMessage(output, false);
             File.WriteAllTextAsync("files/decoded.txt", output);
         }
 
@@ -58,14 +56,8 @@ namespace cryptography
             var encryptedMessage = "";
             foreach (var pair in message)
             {
-                //Console.WriteLine("pair.key: " + pair.Key + " && pair.value: " + pair.Value);
                 var replacement = new KeyValuePair<char,char>();
-                if (encrypt) {
-                    replacement = eReplacePair(pair,key);
-                } else {
-                    replacement = dReplacePair(pair,key);
-                }
-                //Console.WriteLine("replacement.key: " + replacement.Key + " && replacement.value: " + replacement.Value);
+                replacement = replacePair(pair,key, encrypt);
                 encryptedPairs.Add(replacement);
             }
 
@@ -75,120 +67,63 @@ namespace cryptography
             }
             return encryptedMessage;
         }
-        private KeyValuePair<char,char> dReplacePair(KeyValuePair<char,char> pair, char[,] key) 
+        private KeyValuePair<char,char> replacePair(KeyValuePair<char,char> pair, char[,] key, bool encrypt) 
         {
             var first = new KeyValuePair<int, int>();
             var second = new KeyValuePair<int, int>();
             var encryptedPair = new KeyValuePair<char, char>();
             var counter = 0;
+            var checkEdge = 4;
+            var rollEdge = 0;
+            var shift = 1;
+            if (!encrypt) {
+                checkEdge = 0;
+                rollEdge = 4;
+                shift = -1;
+            }
+
+
             for (int row = 0; row < 5; row++)
             {
-                for (int col = 0; col < 5; col++)
+                for (int col = 0; col < 5; col++) 
                 {
-                    if (key[row, col] == pair.Key)
-                    {
+                    if (key[row, col] == pair.Key) {
                         first = new KeyValuePair<int, int> (row,col);
                         counter++;
-                    } else if (key[row, col] == pair.Value) 
-                    {
+                    } else if (key[row, col] == pair.Value) {
                         second = new KeyValuePair<int, int> (row, col);
                         counter++;
                     }
-                    if (counter == 2)
-                    {
+                    if (counter == 2) {
                         break;
                     }
                 }
 
-                if (counter == 2)
-                {
+                if (counter == 2) {
                     break;
                 }
             }
 
             //Same Row
             if (first.Key == second.Key){
-                if (first.Value != 0 && second.Value != 0){
-                    encryptedPair = new KeyValuePair<char, char>(key[first.Key, first.Value-1],key[second.Key, second.Value-1]);
-                } else if(first.Value == 0){
-                    encryptedPair = new KeyValuePair<char, char>(key[first.Key, 4],key[second.Key, second.Value-1]);
-                } else if (second.Value == 0){
-                    encryptedPair = new KeyValuePair<char, char>(key[first.Key, first.Value-1],key[second.Key, 4]);
+                if (first.Value != checkEdge && second.Value != checkEdge){
+                    encryptedPair = new KeyValuePair<char, char>(key[first.Key, first.Value+shift],key[second.Key, second.Value-+shift]);
+                } else if(first.Value == checkEdge){
+                    encryptedPair = new KeyValuePair<char, char>(key[first.Key, rollEdge],key[second.Key, second.Value+shift]);
+                } else if (second.Value == checkEdge){
+                    encryptedPair = new KeyValuePair<char, char>(key[first.Key, first.Value+shift],key[second.Key, rollEdge]);
                 }
             }
             //Same Col
             else if (first.Value == second.Value)
             {
-                if (first.Key != 0 && second.Key != 0){
-                    encryptedPair = new KeyValuePair<char, char>(key[first.Key-1, first.Value],key[second.Key-1, second.Value]);
-                } else if(first.Key == 0 && second.Key != 0){
-                    encryptedPair = new KeyValuePair<char, char>(key[4, first.Value],key[second.Key-1, second.Value]);
-                } else if (second.Key == 0 && first.Key != 0){
-                    encryptedPair = new KeyValuePair<char, char>(key[first.Key-1, first.Value],key[4, second.Value]);
-                } else if (first.Key == 0 && second.Key == 0){
-                    Console.WriteLine("ERROR");
-                }
-            } else{
-                Console.WriteLine("box");
-                encryptedPair = new KeyValuePair<char, char>(key[first.Key, second.Value],key[second.Key, first.Value]);
-            }
-
-            return encryptedPair;
-        }
-
-        private KeyValuePair<char,char> eReplacePair(KeyValuePair<char,char> pair, char[,] key) 
-        {
-            var first = new KeyValuePair<int, int>();
-            var second = new KeyValuePair<int, int>();
-            var encryptedPair = new KeyValuePair<char, char>();
-            var counter = 0;
-            for (int row = 0; row < 5; row++)
-            {
-                for (int col = 0; col < 5; col++)
-                {
-                    if (key[row, col] == pair.Key)
-                    {
-                        first = new KeyValuePair<int, int> (row,col);
-                        counter++;
-                    } else if (key[row, col] == pair.Value) 
-                    {
-                        second = new KeyValuePair<int, int> (row, col);
-                        counter++;
-                    }
-                    if (counter == 2)
-                    {
-                        break;
-                    }
-                }
-
-                if (counter == 2)
-                {
-                    break;
-                }
-            }
-
-            // Same row
-            if (first.Key == second.Key){
-                if (first.Value != 4 && second.Value != 4){
-                    encryptedPair = new KeyValuePair<char, char>(key[first.Key, first.Value+1],key[second.Key, second.Value + 1]);
-                } else if(first.Value == 4){
-                    encryptedPair = new KeyValuePair<char, char>(key[first.Key, 0],key[second.Key, second.Value + 1]);
-                } else if (second.Value == 4){
-                    encryptedPair = new KeyValuePair<char, char>(key[first.Key, first.Value+1],key[second.Key, 0]);
-                }
-            }
-            //Same Col
-            else if (first.Value == second.Value)
-            {
-                if (first.Key != 4 && second.Key != 4){
-                    encryptedPair = new KeyValuePair<char, char>(key[first.Key+1, first.Value],key[second.Key+1, second.Value]);
-                } else if(first.Key == 4 && second.Key != 4){
-                    encryptedPair = new KeyValuePair<char, char>(key[0, first.Value],key[second.Key+1, second.Value]);
-                } else if (second.Key == 4 && first.Key != 4){
-                    encryptedPair = new KeyValuePair<char, char>(key[first.Key+1, first.Value],key[0, second.Value]);
-                } else if (first.Key == 4 && second.Key == 4){
-                    Console.WriteLine("ERROR");
-                }
+                if (first.Key != checkEdge && second.Key != checkEdge){
+                    encryptedPair = new KeyValuePair<char, char>(key[first.Key+shift, first.Value],key[second.Key+shift, second.Value]);
+                } else if(first.Key == checkEdge && second.Key != checkEdge){
+                    encryptedPair = new KeyValuePair<char, char>(key[rollEdge, first.Value],key[second.Key+shift, second.Value]);
+                } else if (second.Key == checkEdge && first.Key != checkEdge){
+                    encryptedPair = new KeyValuePair<char, char>(key[first.Key+shift, first.Value],key[rollEdge, second.Value]);
+                } 
             } else{
                 encryptedPair = new KeyValuePair<char, char>(key[first.Key, second.Value],key[second.Key, first.Value]);
             }
@@ -281,6 +216,16 @@ namespace cryptography
             return key;
         }
 
+        private void printMessage(string message, bool encrypted){
+            Console.WriteLine("");
+            if (encrypted){
+                Console.WriteLine("Encrypted message: ");
+            } else {
+                Console.WriteLine("Decrypted message: ");
+            }
+            Console.WriteLine(message);
+        }
+
         private void printKey(List<char> randomKey, char[,] key)
         {
             Console.WriteLine("");
@@ -293,6 +238,7 @@ namespace cryptography
             Console.WriteLine("");
             Console.WriteLine("");
             Console.WriteLine("Random key formatted: ");
+            Console.WriteLine("");
             for (int i = 0; i < 5; i++)
             {
                 if (i != 0){
@@ -304,6 +250,23 @@ namespace cryptography
                 }
             }
             Console.WriteLine("");
+        }
+
+        private void printMenu(){
+            Console.WriteLine("");
+            Console.WriteLine("----------------------------");
+            Console.WriteLine("Playfair Cypher");
+            Console.WriteLine("");
+            Console.WriteLine("Rules: ");
+            Console.WriteLine("a) Instances of the letter `j` are replaced with `i`. ");
+            Console.WriteLine("b) Identical pairs of letters with be broken with a `z`. ");
+            Console.WriteLine("c) If there are an odd no of letters a `z` will be placed at the end. ");
+            Console.WriteLine("d) Spaces and capitals will be removed.");
+            Console.WriteLine("");
+            Console.WriteLine("Select option: ");
+            Console.WriteLine("1. Encode ");
+            Console.WriteLine("2. Decode ");
+            Console.WriteLine("9. Exit");
         }
     }
 }
