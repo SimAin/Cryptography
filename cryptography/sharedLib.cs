@@ -82,5 +82,31 @@ namespace cryptography
 
             return key;
         }
+
+        public static void printKey(List<char> randomKey){
+
+            Console.WriteLine("");
+            Console.WriteLine("New Key: ");
+            foreach (var letter in randomKey)
+            {
+                Console.Write(letter);
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("");
+        }
+        public static void printCypherName(string name){
+            Console.WriteLine("");
+            Console.WriteLine("----------------------------");
+            Console.WriteLine(name);
+            Console.WriteLine("");
+        }
+
+        public static void printCypherMenu(){
+            Console.WriteLine("Select option: ");
+            Console.WriteLine("1. Encode ");
+            Console.WriteLine("2. Decode ");
+            Console.WriteLine("9. Exit");
+        }
     }
 }

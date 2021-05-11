@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace cryptography
+namespace cryptography.historicAlgorithms
 {
     public class playfairCypher 
     {
@@ -37,7 +37,7 @@ namespace cryptography
         {
             var fileString = File.ReadAllText("files/input.txt");
             var message = prepMessage(fileString);
-            var output = ReplaceVals(message, key, true);
+            var output = replaceValues(message, key, true);
             printMessage(output, true);
             File.WriteAllTextAsync("files/output.txt", output);
         }
@@ -45,12 +45,12 @@ namespace cryptography
         private void decode (char[,] key) {
             var fileString = File.ReadAllText("files/output.txt");
             var message = dSplitMessage(fileString);
-            var output = ReplaceVals(message, key, false);
+            var output = replaceValues(message, key, false);
             printMessage(output, false);
             File.WriteAllTextAsync("files/decoded.txt", output);
         }
 
-        private string ReplaceVals(List<KeyValuePair<char, char>> message, char[,] key, bool encrypt)
+        private string replaceValues(List<KeyValuePair<char, char>> message, char[,] key, bool encrypt)
         {
             var encryptedPairs = new List<KeyValuePair<char,char>>();
             var encryptedMessage = "";
@@ -71,8 +71,7 @@ namespace cryptography
         {
             var first = new KeyValuePair<int, int>();
             var second = new KeyValuePair<int, int>();
-            var encryptedPair = new KeyValuePair<char, char>();
-            var counter = 0;
+            var updatedPair = new KeyValuePair<char, char>();
             var checkEdge = 4;
             var rollEdge = 0;
             var shift = 1;
@@ -82,7 +81,7 @@ namespace cryptography
                 shift = -1;
             }
 
-
+            var counter = 0;
             for (int row = 0; row < 5; row++)
             {
                 for (int col = 0; col < 5; col++) 
@@ -107,28 +106,28 @@ namespace cryptography
             //Same Row
             if (first.Key == second.Key){
                 if (first.Value != checkEdge && second.Value != checkEdge){
-                    encryptedPair = new KeyValuePair<char, char>(key[first.Key, first.Value+shift],key[second.Key, second.Value-+shift]);
+                    updatedPair = new KeyValuePair<char, char>(key[first.Key, first.Value+shift],key[second.Key, second.Value-+shift]);
                 } else if(first.Value == checkEdge){
-                    encryptedPair = new KeyValuePair<char, char>(key[first.Key, rollEdge],key[second.Key, second.Value+shift]);
+                    updatedPair = new KeyValuePair<char, char>(key[first.Key, rollEdge],key[second.Key, second.Value+shift]);
                 } else if (second.Value == checkEdge){
-                    encryptedPair = new KeyValuePair<char, char>(key[first.Key, first.Value+shift],key[second.Key, rollEdge]);
+                    updatedPair = new KeyValuePair<char, char>(key[first.Key, first.Value+shift],key[second.Key, rollEdge]);
                 }
             }
             //Same Col
             else if (first.Value == second.Value)
             {
                 if (first.Key != checkEdge && second.Key != checkEdge){
-                    encryptedPair = new KeyValuePair<char, char>(key[first.Key+shift, first.Value],key[second.Key+shift, second.Value]);
+                    updatedPair = new KeyValuePair<char, char>(key[first.Key+shift, first.Value],key[second.Key+shift, second.Value]);
                 } else if(first.Key == checkEdge && second.Key != checkEdge){
-                    encryptedPair = new KeyValuePair<char, char>(key[rollEdge, first.Value],key[second.Key+shift, second.Value]);
+                    updatedPair = new KeyValuePair<char, char>(key[rollEdge, first.Value],key[second.Key+shift, second.Value]);
                 } else if (second.Key == checkEdge && first.Key != checkEdge){
-                    encryptedPair = new KeyValuePair<char, char>(key[first.Key+shift, first.Value],key[rollEdge, second.Value]);
+                    updatedPair = new KeyValuePair<char, char>(key[first.Key+shift, first.Value],key[rollEdge, second.Value]);
                 } 
             } else{
-                encryptedPair = new KeyValuePair<char, char>(key[first.Key, second.Value],key[second.Key, first.Value]);
+                updatedPair = new KeyValuePair<char, char>(key[first.Key, second.Value],key[second.Key, first.Value]);
             }
 
-            return encryptedPair;
+            return updatedPair;
         }
 
         private List<KeyValuePair<char, char>> prepMessage (string inputMessage)
@@ -228,15 +227,7 @@ namespace cryptography
 
         private void printKey(List<char> randomKey, char[,] key)
         {
-            Console.WriteLine("");
-            Console.WriteLine("Random Key: ");
-            foreach (var letter in randomKey)
-            {
-                Console.Write(letter);
-            }
-
-            Console.WriteLine("");
-            Console.WriteLine("");
+            sharedLib.printKey(randomKey);
             Console.WriteLine("Random key formatted: ");
             Console.WriteLine("");
             for (int i = 0; i < 5; i++)
@@ -253,20 +244,14 @@ namespace cryptography
         }
 
         private void printMenu(){
-            Console.WriteLine("");
-            Console.WriteLine("----------------------------");
-            Console.WriteLine("Playfair Cypher");
-            Console.WriteLine("");
+            sharedLib.printCypherName("Playfair Cypher");
             Console.WriteLine("Rules: ");
             Console.WriteLine("a) Instances of the letter `j` are replaced with `i`. ");
             Console.WriteLine("b) Identical pairs of letters with be broken with a `z`. ");
             Console.WriteLine("c) If there are an odd no of letters a `z` will be placed at the end. ");
             Console.WriteLine("d) Spaces and capitals will be removed.");
             Console.WriteLine("");
-            Console.WriteLine("Select option: ");
-            Console.WriteLine("1. Encode ");
-            Console.WriteLine("2. Decode ");
-            Console.WriteLine("9. Exit");
+            sharedLib.printCypherMenu();
         }
     }
 }

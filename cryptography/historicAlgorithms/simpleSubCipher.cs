@@ -4,29 +4,30 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace cryptography
+namespace cryptography.historicAlgorithms
 {
     public class simpleSubCipher
     {
         public void run()
         {
-            Console.WriteLine("Select option: ");
-            Console.WriteLine("1. Encode ");
-            Console.WriteLine("2. Decode ");
+            sharedLib.printCypherName("Simple Substitution Cypher");
+            sharedLib.printCypherMenu();
 
             var option = Console.ReadLine();
-            if (sharedLib.validateOption(option, new int[] {1,2})){
+            if (sharedLib.validateOption(option, new int[] {1,2,9})){
                 var optionValue = int.Parse(option);
                 switch (optionValue)
                 {
                     case 1:
                         var ekey = identifyKey();
-                        printKey(ekey);
+                        sharedLib.printKey(ekey);
                         encode(ekey);
                         break;  
                     case 2:
                         var dkey = sharedLib.inputKey();
                         decode(dkey);
+                        break;
+                    case 9:
                         break;
                     default:
                         break;
@@ -135,18 +136,6 @@ namespace cryptography
             
             return key;
 
-        }
-
-        private void printKey(List<char> key)
-        {
-            Console.WriteLine("");
-            Console.WriteLine("New key: ");
-            foreach (var item in key)
-            {
-                Console.Write(item);
-            }
-            Console.WriteLine("");
-            Console.WriteLine("");
         }
     }
 }

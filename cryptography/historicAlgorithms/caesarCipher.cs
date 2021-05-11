@@ -4,17 +4,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace cryptography
+namespace cryptography.historicAlgorithms
 {
     public class caesarCipher 
     {
         public void run(){
-            Console.WriteLine("Select option: ");
-            Console.WriteLine("1. Encode ");
-            Console.WriteLine("2. Decode ");
+            sharedLib.printCypherName("Caesar Cypher");
+            sharedLib.printCypherMenu();
 
             var option = Console.ReadLine();
-            if (sharedLib.validateOption(option, new int[] {1,2})){
+            if (sharedLib.validateOption(option, new int[] {1,2,9})){
                 var optionValue = int.Parse(option);
                 int skip = getSkip();
                 switch (optionValue)
@@ -24,6 +23,8 @@ namespace cryptography
                         break;  
                     case 2:
                         decode(skip);
+                        break;
+                    case 9:
                         break;
                     default:
                         break;
