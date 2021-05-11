@@ -19,7 +19,7 @@ namespace cryptography.historicAlgorithms
                 switch (optionValue)
                 {
                     case 1:
-                        var ekey = identifyKey();
+                        var ekey = sharedLib.identifyKey();
                         sharedLib.printKey(ekey);
                         encode(ekey);
                         break;  
@@ -75,67 +75,6 @@ namespace cryptography.historicAlgorithms
             return csb.ToString();
         }
 
-        private List<char> identifyKey()
-        {
-            var key = new List<char>();
-            var valid = true;
 
-            do
-            {
-                Console.WriteLine("Select option: ");
-                Console.WriteLine("1. Random key");
-                Console.WriteLine("2. Phrase key");
-                var keySelect = Console.ReadLine();
-
-                if (sharedLib.validateOption(keySelect, new int[] {1,2})){
-                    var option = int.Parse(keySelect);
-                    switch (option)
-                    {
-                        case 1:
-                            key = sharedLib.generateRandomKey();
-                            break;
-                        case 2:
-                            key = generatePhraseKey();
-                            break;
-                        default:
-                            break;
-                    }
-                    valid = true;
-                } else {
-                    Console.WriteLine("Input error retry.");
-                }
-            } while (!valid);
-
-            return key;
-        }
-
-        private List<char> generatePhraseKey()
-        {
-            var key = new List<char>();
-
-            Console.WriteLine("Enter key phrase: ");
-            var phrase = Console.ReadLine();
-
-            char[] charList = new char[phrase.Length];
- 
-            charList = phrase.ToLower().ToCharArray();
- 
-            foreach (char c in charList)
-            {
-                if (!key.Contains(c) && Char.IsLetter(c)) {
-                    key.Add(c);
-                }
-            }
-
-            for (int i = 1; i < 27; i++)
-            {
-                if (!key.Contains((char)(i+96))) {
-                    key.Add((char)(i+96));
-                }
-            }
-            
-            return key;
-
-        }
     }
 }
