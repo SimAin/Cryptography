@@ -19,7 +19,7 @@ namespace cryptography.historicAlgorithms
                 switch (optionValue)
                 {
                     case 1:
-                        var ekey = sharedLib.identifyKey();
+                        var ekey = sharedLib.identifyKey(true);
                         sharedLib.printKey(ekey);
                         encode(ekey);
                         break;  

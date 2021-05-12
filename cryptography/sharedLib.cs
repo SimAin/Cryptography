@@ -60,7 +60,7 @@ namespace cryptography
             return key;
         }
         
-        public static List<char> inputKey()
+        public static List<char> inputKey(bool phraseAllowed = false)
         {
             var valid = true;
             var key = new List<char>();
@@ -68,7 +68,7 @@ namespace cryptography
             {
                 Console.WriteLine("Enter key:");
                 var input = Console.ReadLine();
-                if (input.Length == 26){
+                if (phraseAllowed || ((input.Length == 26) && !phraseAllowed)){
                     char[] charList = new char[input.Length];
                     charList = input.ToLower().ToCharArray();
                     foreach (var c in charList)
@@ -109,7 +109,7 @@ namespace cryptography
             Console.WriteLine("9. Exit");
         }
 
-        public static List<char> identifyKey()
+        public static List<char> identifyKey(bool phraseFullAlpha)
         {
             var key = new List<char>();
             var valid = true;
@@ -129,7 +129,7 @@ namespace cryptography
                             key = generateRandomKey();
                             break;
                         case 2:
-                            key = generatePhraseKey();
+                            key = generatePhraseKey(phraseFullAlpha);
                             break;
                         default:
                             break;
@@ -143,7 +143,7 @@ namespace cryptography
             return key;
         }
 
-        public static List<char> generatePhraseKey()
+        public static List<char> generatePhraseKey(bool fullAlpha)
         {
             var key = new List<char>();
 
@@ -160,11 +160,13 @@ namespace cryptography
                     key.Add(c);
                 }
             }
-
-            for (int i = 1; i < 27; i++)
-            {
-                if (!key.Contains((char)(i+96))) {
-                    key.Add((char)(i+96));
+            
+            if (fullAlpha){
+                for (int i = 1; i < 27; i++)
+                {
+                    if (!key.Contains((char)(i+96))) {
+                        key.Add((char)(i+96));
+                    }
                 }
             }
             

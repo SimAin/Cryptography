@@ -16,7 +16,7 @@ namespace cryptography.historicAlgorithms
                 switch (optionValue)
                 {
                     case 1:
-                        var key = sharedLib.identifyKey();
+                        var key = sharedLib.identifyKey(true);
                         var ekey = processKey(key);
                         printKey(key, ekey);
                         encode(ekey);
