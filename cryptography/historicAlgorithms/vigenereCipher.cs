@@ -37,53 +37,36 @@ namespace cryptography.historicAlgorithms
         {
             var fileString = File.ReadAllText("files/input.txt");
             var key = generateFullKey(fileString.Length, keyPhrase);
-            var output = eReplaceValues(fileString, key);
+            var output = replaceValues(fileString, key, true);
             Console.WriteLine(output);
             File.WriteAllTextAsync("files/output.txt", output);
         }
         private void decode (List<char> keyPhrase) {
             var fileString = File.ReadAllText("files/output.txt");
             var key = generateFullKey(fileString.Length, keyPhrase);
-            var output = dReplaceValues(fileString, key);
+            var output = replaceValues(fileString, key, false);
             Console.WriteLine(output);
             File.WriteAllTextAsync("files/decoded.txt", output);
         }
 
-        private string eReplaceValues(string fileString, List<char> key)
+        private string replaceValues(string fileString, List<char> key, bool encrypt)
         {
             var csb = new StringBuilder(fileString.ToLower());
             var messageChars = fileString.ToLower().ToCharArray();
 
             for (int i = 0; i < messageChars.Length; i++)
             {
-                var skip = (int) (key[i]-97) ;
-
-                if (Char.IsLetter(messageChars[i])) {
-                    csb.Remove(i,1);
-                    if (((int)messageChars[i]+skip) > 122){
-                        var rem =  (messageChars[i]+skip) -122;
-                        csb.Insert(i,(char)(rem+96));
-                    } else{
-                        csb.Insert(i,(char)(messageChars[i]+skip));
-                    }
+                var skip = (int) (key[i]-97);
+                if (!encrypt){
+                    skip = -skip;
                 }
 
-            }
-            return csb.ToString();
-        }
-
-        private string dReplaceValues(string fileString, List<char> key)
-        {
-            var csb = new StringBuilder(fileString.ToLower());
-            var messageChars = fileString.ToLower().ToCharArray();
-
-            for (int i = 0; i < messageChars.Length; i++)
-            {
-                var skip = (int) -(key[i]-97) ;
-
                 if (Char.IsLetter(messageChars[i])) {
                     csb.Remove(i,1);
-                    if (((int)messageChars[i]+skip) < 97){
+                    if (((int)messageChars[i]+skip) > 122 && encrypt){
+                        var rem =  (messageChars[i]+skip) -122;
+                        csb.Insert(i,(char)(rem+96));
+                    } else if (((int)messageChars[i]+skip) < 97 && !encrypt){
                         var rem =  96 -(messageChars[i]+skip);
                         csb.Insert(i,(char)(122-rem));
                     } else{
