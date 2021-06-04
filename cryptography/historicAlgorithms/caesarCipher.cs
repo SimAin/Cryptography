@@ -15,7 +15,7 @@ namespace cryptography.historicAlgorithms
             var option = Console.ReadLine();
             if (sharedLib.validateOption(option, new int[] {1,2,9})){
                 var optionValue = int.Parse(option);
-                int skip = getSkip();
+                int skip = sharedLib.inputIntKey();
                 switch (optionValue)
                 {
                     case 1:
@@ -44,24 +44,6 @@ namespace cryptography.historicAlgorithms
             var output = ReplaceVals(fileString, 26-skip);
             Console.WriteLine(output);
             File.WriteAllTextAsync("files/decoded.txt", output);
-        }
-
-        private int getSkip(){
-            var valid = false;
-            int value; 
-            string skip;
-            do
-            {
-                Console.WriteLine("Input skip value:");
-                skip = Console.ReadLine();
-                if(int.TryParse(skip, out value)){
-                    valid = true;
-                } else {
-                    Console.WriteLine("Input error retry.");
-                }
-            } while (!valid);
-
-            return int.Parse(skip);
         }
 
         private static string ReplaceVals(string fileString, int skip){

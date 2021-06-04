@@ -59,6 +59,23 @@ namespace cryptography
 
             return key;
         }
+        public static int inputIntKey(){
+            var valid = false;
+            int value; 
+            string key;
+            do
+            {
+                Console.WriteLine("Input numeric key value:");
+                key = Console.ReadLine();
+                if(int.TryParse(key, out value)){
+                    valid = true;
+                } else {
+                    Console.WriteLine("Input error, retry.");
+                }
+            } while (!valid);
+
+            return int.Parse(key);
+        }
         
         public static List<char> inputKey(bool phraseAllowed = false)
         {

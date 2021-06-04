@@ -11,6 +11,7 @@ namespace cryptography
         private static simpleSubCipher simpleSub = new simpleSubCipher();
         private static playfairCypher playfair = new playfairCypher();
         private static vigenereCipher vigenere = new vigenereCipher();
+        private static simpleTranspositionCipher trans = new simpleTranspositionCipher();
         static void Main(string[] args)
         {
             var exit = false;
@@ -27,11 +28,12 @@ namespace cryptography
                 Console.WriteLine("2. Simple substitution cypher");
                 Console.WriteLine("3. Playfair cypher");
                 Console.WriteLine("4. Vigenère cypher");
+                Console.WriteLine("5. Simple transposition cypher");
                 Console.WriteLine("9. Exit");
 
                 var option = Console.ReadLine();
 
-                if (sharedLib.validateOption(option, new int[] {1,2,3,4,9})){
+                if (sharedLib.validateOption(option, new int[] {1,2,3,4,5,9})){
                     var optionValue = int.Parse(option);
                     switch (optionValue)
                     {
@@ -46,6 +48,9 @@ namespace cryptography
                             break;
                         case 4: 
                             vigenere.run();
+                            break;
+                        case 5:
+                            trans.run();
                             break;
                         case 9:
                             exit = true;
