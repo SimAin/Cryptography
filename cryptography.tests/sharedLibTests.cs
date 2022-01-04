@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using cryptography;
+using System;
 
 namespace cryptography.Tests
 {
@@ -15,24 +15,45 @@ namespace cryptography.Tests
         }
 
         [Test]
-        public void validatorTestNonIntFails()
+        [TestCase("hi",new int[] {1, 2})]
+        [TestCase("ten",new int[] {1, 2})]
+        [TestCase("5",new int[] {1, 2})]
+        [TestCase("2",new int[] {1, 3, 4, 5})]
+        public void validatorTestExpectedFailures(String option, int[] acceptedValues)
         {
-            var result = sharedLib.validateOption("hi", new int[] {1, 2});
+            var result = sharedLib.validateOption(option, acceptedValues);
             Assert.IsFalse(result);
         }
 
         [Test]
-        public void validatorTestUnacceptedIntFails()
+        [TestCase("2",new int[] {1, 2})]
+        [TestCase("5",new int[] {0, 2, 3, 4, 5})]
+        public void validatorTestExpectedPasses(String option, int[] acceptedValues)
         {
-            var result = sharedLib.validateOption("5", new int[] {1, 2});
-            Assert.IsFalse(result);
-        }
-
-        [Test]
-        public void validatorTestValidIntPasses()
-        {
-            var result = sharedLib.validateOption("2", new int[] {1, 2});
+            var result = sharedLib.validateOption(option, acceptedValues);
             Assert.IsTrue(result);
+        }
+
+        [Test]
+        [TestCase("abcadaa", 'a', new int[] {0,3,5,6})]
+        [TestCase("Test String", 's', new int[] {2})]
+        [TestCase("Test String", 't', new int[] {3,6})]
+        public void charIndexInStringTestExpectedPasses(String fullText, char val, int[] expected)
+        {
+            var trueCount = 0;
+            var results = sharedLib.GetCharIndexInString(fullText, val);
+            
+            foreach (var r in results)
+            {
+                if (Array.Exists(expected, e => e == r)){
+                    trueCount++;
+                }
+            }
+            if (trueCount == results.Count){
+                Assert.Pass();
+            } else {
+                Assert.Fail();
+            }
         }
     }
 }
