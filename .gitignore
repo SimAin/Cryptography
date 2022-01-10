@@ -1,6 +1,6 @@
 # Local files specific to project
 files/
-
+.vscode/
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/vscode,csharp
