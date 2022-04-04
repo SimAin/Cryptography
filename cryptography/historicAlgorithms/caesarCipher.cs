@@ -34,19 +34,19 @@ namespace cryptography.historicAlgorithms
 
         public void encode (int skip) {
             var fileString = File.ReadAllText("files/input.txt");
-            var output = ReplaceVals(fileString, skip);
+            var output = replaceVals(fileString, skip);
             Console.WriteLine(output);
             File.WriteAllTextAsync("files/output.txt", output);
         }
 
         private void decode (int skip) {
             var fileString = File.ReadAllText("files/output.txt");
-            var output = ReplaceVals(fileString, 26-skip);
+            var output = replaceVals(fileString, 26-skip);
             Console.WriteLine(output);
             File.WriteAllTextAsync("files/decoded.txt", output);
         }
 
-        private static string ReplaceVals(string fileString, int skip){
+        private static string replaceVals(string fileString, int skip){
             
             StringBuilder osb = new StringBuilder(fileString);
             StringBuilder csb = new StringBuilder(fileString);
