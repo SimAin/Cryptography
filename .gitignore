@@ -1,7 +1,7 @@
 # Local files specific to project
 files/
 .vscode/
-
+.idea/
 
 # Created by https://www.toptal.com/developers/gitignore/api/vscode,csharp
 # Edit at https://www.toptal.com/developers/gitignore?templates=vscode,csharp
