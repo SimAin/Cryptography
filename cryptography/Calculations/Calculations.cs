@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
+using cryptography.Models;
 
 namespace cryptography.Calculations
 {
     public class Calculations
     {
+        static List<string> outputString = new List<string>();
         public void run()
         {
             printMenu();
@@ -17,12 +20,29 @@ namespace cryptography.Calculations
                         eulersTotientFunction(n);
                         break; 
                     case 2:
-                        var r = greatestCommonDivide(sharedLib.inputIntKey(), sharedLib.inputIntKey());
+                        var r = gcd(sharedLib.inputIntKey(), sharedLib.inputIntKey());
                         Console.WriteLine("Result: " + r);
                         break;  
                     case 3:
-                        int z = extendedEuclidAlgorithm(sharedLib.inputIntKey(),sharedLib.inputIntKey(), 1, 1);
-                        Console.WriteLine("Result: " + z);
+                        outputString = new List<string>();
+                        var a = sharedLib.inputIntKey();
+                        var b = sharedLib.inputIntKey();
+                        EeaResult z = extendedEuclidAlgorithm(a,b);
+                        
+                        Console.WriteLine("");
+                        Console.WriteLine("Calculation table: ");
+                        outputString.Reverse();
+                        foreach (var s in outputString)
+                        {
+                            Console.WriteLine(s);
+                        }
+                        
+                        Console.WriteLine("");
+                        Console.WriteLine("Result d: " + z.d);
+                        Console.WriteLine("Result x: " + z.x);
+                        Console.WriteLine("Result y: " + z.y);
+                        Console.WriteLine("ExtendedEuclid(" + a + "," + b + ") = " + z.d + " = (" + a + " x (" + 
+                                            z.x + ")) + (" + b + " x " + z.y + ")");
                         break;  
                     case 9:
                         break;
@@ -30,29 +50,37 @@ namespace cryptography.Calculations
             }
         }
         
-        private static int extendedEuclidAlgorithm(int a, int b, int x, int y)
+        private static EeaResult extendedEuclidAlgorithm(int a, int b)
         {
-            Console.WriteLine("a: " + a + " - b: " + b + " - [a/b]: " + "n/a" + " - d: " + "n/a" + " - x: " + x + " - y:" + y);
-            // Base Case
+            var eea = new EeaResult(0,1,1);
+            
             if (a == 0)
             {
-                x = 0;
-                y = 1;
-                return b;
+                eea.x = 0;
+                eea.y = 1;
+                return new EeaResult(a,1,0);
             }
  
-            // To store results of
-            // recursive call
-            int x1 = 1, y1 = 1;
-            int gcd = extendedEuclidAlgorithm(b % a, a, x1, y1);
+            eea = extendedEuclidAlgorithm(b % a, a);
  
-            // Update x and y using
-            // results of recursive call
-            x = y1 - (b / a) * x1;
-            y = x1;
-            Console.WriteLine("a: " + a + " - b: " + b + " - [a/b]: " +  b/a + " - d: " + greatestCommonDivide(a,b) + " - x: " + x + " - y:" + y);
- 
-            return gcd;
+            var q = b/a;
+            if (q != 0)
+            {
+                var d = gcd(a, b);
+
+                var ty = eea.y;
+                var tx = eea.x;
+                
+                eea.d = d;
+                eea.y = tx - (b/a) * ty;
+                eea.x = ty;
+                
+                outputString.Add("a: " + b + " - b: " + mod(a, b) + " - [a/b]: " + q + " - d: "
+                                                               + d + " - x: " + eea.x + " - y:" + eea.y);
+                return eea;
+            }
+
+            return eea;
         }
 
         private void eulersTotientFunction(int n)
@@ -61,7 +89,7 @@ namespace cryptography.Calculations
             
             for (int k = 1; k < n; k++)
             {
-                if (greatestCommonDivide(n, k) == 1)
+                if (gcd(n, k) == 1)
                 {
                     count++;
                 }
@@ -74,7 +102,7 @@ namespace cryptography.Calculations
             return r<0 ? r+m : r;
         }
 
-        private static int greatestCommonDivide(int x, int y)
+        private static int gcd(int x, int y)
         {
             return euclidAlgorithm(x, y);
         }
