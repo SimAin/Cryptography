@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -12,7 +11,7 @@ namespace cryptography.historicAlgorithms
             SharedLib.printCipherMenu();
 
             var option = Console.ReadLine();
-            if (SharedLib.validateOption(option, new int[] {1,2,9})){
+            if (SharedLib.validateOption(option, new[] {1,2,9})){
                 var optionValue = int.Parse(option);
                 int depth = SharedLib.inputIntKey();
                 switch (optionValue)
@@ -24,8 +23,6 @@ namespace cryptography.historicAlgorithms
                         decode(depth);
                         break;
                     case 9:
-                        break;
-                    default:
                         break;
                 }
             }
@@ -47,8 +44,8 @@ namespace cryptography.historicAlgorithms
 
         private string replaceValsE(string fileString, int depth)
         {
-            StringBuilder osb = new StringBuilder(fileString);
-            StringBuilder[] csb = new StringBuilder[depth];
+            var osb = new StringBuilder(fileString);
+            var csb = new StringBuilder[depth];
             
             var charList = osb.ToString().ToLower().ToCharArray();
 
@@ -85,10 +82,11 @@ namespace cryptography.historicAlgorithms
             for (int i = 0; i < depth; i++)
             {
                 csb[i] = new StringBuilder();
-                foreach (var c in charList)
+                var charCounter = 0;
+                do
                 {
                     csb[i].Append('.');
-                }
+                } while (charCounter<charList.Length);
             }
 
             var csb2 = railStructure(tempCharList, csb, depth, false);

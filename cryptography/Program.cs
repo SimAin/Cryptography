@@ -1,8 +1,5 @@
 ﻿using System;
-using System.IO;
-using System.Text;
 using cryptography.historicAlgorithms;
-using cryptography.Calculations;
 
 namespace cryptography
 {
@@ -46,7 +43,7 @@ namespace cryptography
 
                 var option = Console.ReadLine();
 
-                if (SharedLib.validateOption(option, new int[] {1,2,3,4,5,6,88,99})){
+                if (SharedLib.validateOption(option, new[] {1,2,3,4,5,6,88,99})){
                     var optionValue = int.Parse(option);
                     switch (optionValue)
                     {
@@ -73,8 +70,6 @@ namespace cryptography
                             break;
                         case 99:
                             exit = true;
-                            break;
-                        default:
                             break;
                     }
                 } else {

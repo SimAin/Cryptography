@@ -13,7 +13,7 @@ namespace cryptography.historicAlgorithms
             SharedLib.printCipherMenu();
 
             var option = Console.ReadLine();
-            if (SharedLib.validateOption(option, new int[] {1,2,9})){
+            if (SharedLib.validateOption(option, new[] {1,2,9})){
                 var optionValue = int.Parse(option);
                 int key = SharedLib.inputIntKey();
                 switch (optionValue)
@@ -26,8 +26,6 @@ namespace cryptography.historicAlgorithms
                         break;
                     case 9:
                         break;
-                    default:
-                        break;
                 }
             }
         }
@@ -36,7 +34,7 @@ namespace cryptography.historicAlgorithms
         {
             var fileString = File.ReadAllText("files/output.txt");
             key = fileString.Length / key;
-            var output = ReplaceVals(fileString, key, true);
+            var output = replaceVals(fileString, key);
             Console.WriteLine(output);
             File.WriteAllTextAsync("files/decoded.txt", output);
         }
@@ -44,12 +42,12 @@ namespace cryptography.historicAlgorithms
         private void encode(int key)
         {
             var fileString = File.ReadAllText("files/input.txt");
-            var output = ReplaceVals(fileString, key, false);
+            var output = replaceVals(fileString, key);
             Console.WriteLine(output);
             File.WriteAllTextAsync("files/output.txt", output);
         }
 
-        private string ReplaceVals(string fileString, int key, bool v)
+        private string replaceVals(string fileString, int key)
         {
             var messageChars = fileString.ToLower().ToCharArray();
             var arrayList = new List<char[]>();

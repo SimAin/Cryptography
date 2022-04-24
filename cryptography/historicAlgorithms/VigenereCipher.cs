@@ -7,12 +7,11 @@ namespace cryptography.historicAlgorithms
 {
     public class VigenereCipher
     {
-        private CaesarCipher caesar = new CaesarCipher();
         public void run(){
             SharedLib.printCipherName("Vigenère Cipher");
             SharedLib.printCipherMenu();
             var option = Console.ReadLine();
-            if (SharedLib.validateOption(option, new int[] {1,2,9})){
+            if (SharedLib.validateOption(option, new[] {1,2,9})){
                 var optionValue = int.Parse(option);
 
                 switch (optionValue)
@@ -27,8 +26,6 @@ namespace cryptography.historicAlgorithms
                         decode(key);
                         break;
                     case 9:
-                        break;
-                    default:
                         break;
                 }
             }
@@ -56,17 +53,17 @@ namespace cryptography.historicAlgorithms
 
             for (int i = 0; i < messageChars.Length; i++)
             {
-                var skip = (int) (key[i]-97);
+                var skip = key[i]-97;
                 if (!encrypt){
                     skip = -skip;
                 }
 
                 if (Char.IsLetter(messageChars[i])) {
                     csb.Remove(i,1);
-                    if (((int)messageChars[i]+skip) > 122 && encrypt){
+                    if ((messageChars[i]+skip) > 122 && encrypt){
                         var rem =  (messageChars[i]+skip) -122;
                         csb.Insert(i,(char)(rem+96));
-                    } else if (((int)messageChars[i]+skip) < 97 && !encrypt){
+                    } else if ((messageChars[i]+skip) < 97 && !encrypt){
                         var rem =  96 -(messageChars[i]+skip);
                         csb.Insert(i,(char)(122-rem));
                     } else{

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace cryptography.historicAlgorithms
@@ -14,7 +13,7 @@ namespace cryptography.historicAlgorithms
             SharedLib.printCipherMenu();
 
             var option = Console.ReadLine();
-            if (SharedLib.validateOption(option, new int[] {1,2,9})){
+            if (SharedLib.validateOption(option, new[] {1,2,9})){
                 var optionValue = int.Parse(option);
                 switch (optionValue)
                 {
@@ -29,8 +28,6 @@ namespace cryptography.historicAlgorithms
                         break;
                     case 9:
                         break;
-                    default:
-                        break;
                 }
             }
         }
@@ -38,19 +35,19 @@ namespace cryptography.historicAlgorithms
         private void encode(List<char> key)
         {
             var fileString = File.ReadAllText("files/input.txt");
-            var output = ReplaceVals(fileString, key, false);
+            var output = replaceVals(fileString, key, false);
             Console.WriteLine(output);
             File.WriteAllTextAsync("files/output.txt", output);
         }
 
         private void decode (List<char> key) {
             var fileString = File.ReadAllText("files/output.txt");
-            var output = ReplaceVals(fileString, key, true);
+            var output = replaceVals(fileString, key, true);
             Console.WriteLine(output);
             File.WriteAllTextAsync("files/decoded.txt", output);
         }
 
-        private static string ReplaceVals(string fileString, List<char> key, bool decode)
+        private static string replaceVals(string fileString, List<char> key, bool decode)
         {
             StringBuilder osb = new StringBuilder(fileString.ToLower());
             StringBuilder csb = new StringBuilder(fileString.ToLower());

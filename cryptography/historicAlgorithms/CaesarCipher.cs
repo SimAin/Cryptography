@@ -1,6 +1,5 @@
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -13,7 +12,7 @@ namespace cryptography.historicAlgorithms
             SharedLib.printCipherMenu();
 
             var option = Console.ReadLine();
-            if (SharedLib.validateOption(option, new int[] {1,2,9})){
+            if (SharedLib.validateOption(option, new[] {1,2,9})){
                 var optionValue = int.Parse(option);
                 int skip = SharedLib.inputIntKey();
                 switch (optionValue)
@@ -25,8 +24,6 @@ namespace cryptography.historicAlgorithms
                         decode(skip);
                         break;
                     case 9:
-                        break;
-                    default:
                         break;
                 }
             }

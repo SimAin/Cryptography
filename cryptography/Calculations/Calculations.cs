@@ -9,7 +9,6 @@ namespace cryptography.Calculations
         static List<string> outputString = new List<string>();
         public void run()
         {
-            
             var exit = false;
             do
             {

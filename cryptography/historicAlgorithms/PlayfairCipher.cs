@@ -10,7 +10,7 @@ namespace cryptography.historicAlgorithms
         public void run(){
             printMenu();
             var option = Console.ReadLine();
-            if (SharedLib.validateOption(option, new int[] {1,2,9})){
+            if (SharedLib.validateOption(option, new[] {1,2,9})){
                 var optionValue = int.Parse(option);
 
                 switch (optionValue)
@@ -27,8 +27,6 @@ namespace cryptography.historicAlgorithms
                         decode(dkey);
                         break;
                     case 9:
-                        break;
-                    default:
                         break;
                 }
             }
@@ -56,9 +54,7 @@ namespace cryptography.historicAlgorithms
             var encryptedMessage = "";
             foreach (var pair in message)
             {
-                var replacement = new KeyValuePair<char,char>();
-                replacement = replacePair(pair,key, encrypt);
-                encryptedPairs.Add(replacement);
+                encryptedPairs.Add(replacePair(pair,key,encrypt));
             }
 
             foreach (var pair in encryptedPairs)
@@ -136,12 +132,12 @@ namespace cryptography.historicAlgorithms
             var csb = new StringBuilder(inputMessage.ToLower());
 
             //Find and replace all 'j' chars with 'i'
-            var jlocs = SharedLib.GetCharIndexInString(osb.ToString(), (char)'j');
+            var jlocs = SharedLib.GetCharIndexInString(osb.ToString(), 'j');
 
             foreach (var jloc in jlocs)
             {
                 csb.Remove(jloc,1);
-                csb.Insert(jloc,(char)'i');
+                csb.Insert(jloc,'i');
             }
             
             //Find and remove all whitespace char
@@ -164,8 +160,7 @@ namespace cryptography.historicAlgorithms
         private List<KeyValuePair<char,char>> eSplitMessage (StringBuilder csb)
         {
             var couplets = new List<KeyValuePair<char, char>>();
-            char[] charList = new char[csb.Length];
-            charList = csb.ToString().ToCharArray();
+            var charList = csb.ToString().ToCharArray();
             for (int i = 0; i < charList.Length; i+=2)
             {
                 if (i+1 < charList.Length){
@@ -185,8 +180,7 @@ namespace cryptography.historicAlgorithms
         private List<KeyValuePair<char,char>> dSplitMessage (string message)
         {
             var couplets = new List<KeyValuePair<char, char>>();
-            char[] charList = new char[message.Length];
-            charList = message.ToString().ToCharArray();
+            var charList = message.ToCharArray();
             for (int i = 0; i < charList.Length; i+=2)
             {
                 couplets.Add(new KeyValuePair<char, char> (charList[i], charList[i+1]));
