@@ -8,12 +8,14 @@ namespace cryptography
 {
     class Program
     {
-        private static caesarCipher caesar = new caesarCipher();
-        private static simpleSubCipher simpleSub = new simpleSubCipher();
-        private static playfairCypher playfair = new playfairCypher();
-        private static vigenereCipher vigenere = new vigenereCipher();
-        private static simpleTranspositionCipher trans = new simpleTranspositionCipher();
+        private static CaesarCipher caesar = new CaesarCipher();
+        private static SimpleSubCipher simpleSub = new SimpleSubCipher();
+        private static PlayfairCipher playfair = new PlayfairCipher();
+        private static VigenereCipher vigenere = new VigenereCipher();
+        private static SimpleTranspositionCipher trans = new SimpleTranspositionCipher();
+        private static RailFenceCipher railFence = new RailFenceCipher();
         private static Calculations.Calculations calcs = new Calculations.Calculations();
+        
         static void Main(string[] args)
         {
             var exit = false;
@@ -26,19 +28,25 @@ namespace cryptography
                 Console.WriteLine("");
                 Console.WriteLine("Select algorithm below to encrypt/decrypt files.");
                 Console.WriteLine("");
-                Console.WriteLine("1. Caesar cypher");
-                Console.WriteLine("2. Simple substitution cypher");
-                Console.WriteLine("3. Playfair cypher");
-                Console.WriteLine("4. Vigenère cypher");
-                Console.WriteLine("5. Simple transposition cypher");
+                Console.WriteLine("Substitution ciphers:");
+                Console.WriteLine("1. Caesar cipher");
+                Console.WriteLine("2. Simple substitution cipher");
+                Console.WriteLine("3. Playfair cipher");
+                Console.WriteLine("4. Vigenère cipher");
                 Console.WriteLine("");
-                Console.WriteLine("6. Calculations");
+                Console.WriteLine("Transposition ciphers:");
+                //TODO: Columnar, Multi-stage columnar
+                Console.WriteLine("5. Simple transposition cipher");
+                Console.WriteLine("6. Rail fence cipher");
                 Console.WriteLine("");
-                Console.WriteLine("9. Exit");
+                //TODO: Composite (product) ciphers - Feistel 
+                Console.WriteLine("88. Calculations");
+                Console.WriteLine("");
+                Console.WriteLine("99. Exit");
 
                 var option = Console.ReadLine();
 
-                if (sharedLib.validateOption(option, new int[] {1,2,3,4,5,6,9})){
+                if (SharedLib.validateOption(option, new int[] {1,2,3,4,5,6,88,99})){
                     var optionValue = int.Parse(option);
                     switch (optionValue)
                     {
@@ -58,9 +66,12 @@ namespace cryptography
                             trans.run();
                             break;
                         case 6:
+                            railFence.run();
+                            break;
+                        case 88:
                             calcs.run();
                             break;
-                        case 9:
+                        case 99:
                             exit = true;
                             break;
                         default:
