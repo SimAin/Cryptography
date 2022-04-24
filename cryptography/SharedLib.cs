@@ -112,14 +112,14 @@ namespace cryptography
             Console.WriteLine("");
             Console.WriteLine("");
         }
-        public static void printCypherName(string name){
+        public static void printCipherName(string name){
             Console.WriteLine("");
             Console.WriteLine("----------------------------");
             Console.WriteLine(name);
             Console.WriteLine("");
         }
 
-        public static void printCypherMenu(){
+        public static void printCipherMenu(){
             Console.WriteLine("Select option: ");
             Console.WriteLine("1. Encode ");
             Console.WriteLine("2. Decode ");

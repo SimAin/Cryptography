@@ -5,24 +5,24 @@ using System.Text;
 
 namespace cryptography.historicAlgorithms
 {
-    public class playfairCypher 
+    public class PlayfairCipher 
     {
         public void run(){
             printMenu();
             var option = Console.ReadLine();
-            if (sharedLib.validateOption(option, new int[] {1,2,9})){
+            if (SharedLib.validateOption(option, new int[] {1,2,9})){
                 var optionValue = int.Parse(option);
 
                 switch (optionValue)
                 {
                     case 1:
-                        var key = sharedLib.identifyKey(true);
+                        var key = SharedLib.identifyKey(true);
                         var ekey = processKey(key);
                         printKey(key, ekey);
                         encode(ekey);
                         break;  
                     case 2:
-                        var inputKey = sharedLib.inputKey();
+                        var inputKey = SharedLib.inputKey();
                         var dkey = processKey(inputKey);
                         decode(dkey);
                         break;
@@ -136,7 +136,7 @@ namespace cryptography.historicAlgorithms
             var csb = new StringBuilder(inputMessage.ToLower());
 
             //Find and replace all 'j' chars with 'i'
-            var jlocs = sharedLib.GetCharIndexInString(osb.ToString(), (char)'j');
+            var jlocs = SharedLib.GetCharIndexInString(osb.ToString(), (char)'j');
 
             foreach (var jloc in jlocs)
             {
@@ -227,7 +227,7 @@ namespace cryptography.historicAlgorithms
 
         private void printKey(List<char> randomKey, char[,] key)
         {
-            sharedLib.printKey(randomKey);
+            SharedLib.printKey(randomKey);
             Console.WriteLine("Random key formatted: ");
             Console.WriteLine("");
             for (int i = 0; i < 5; i++)
@@ -244,14 +244,14 @@ namespace cryptography.historicAlgorithms
         }
 
         private void printMenu(){
-            sharedLib.printCypherName("Playfair Cypher");
+            SharedLib.printCipherName("Playfair Cipher");
             Console.WriteLine("Rules: ");
             Console.WriteLine("a) Instances of the letter `j` are replaced with `i`. ");
             Console.WriteLine("b) Identical pairs of letters with be broken with a `z`. ");
             Console.WriteLine("c) If there are an odd no of letters a `z` will be placed at the end. ");
             Console.WriteLine("d) Spaces and capitals will be removed.");
             Console.WriteLine("");
-            sharedLib.printCypherMenu();
+            SharedLib.printCipherMenu();
         }
     }
 }

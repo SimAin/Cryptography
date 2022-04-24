@@ -6,16 +6,16 @@ using System.Text;
 
 namespace cryptography.historicAlgorithms
 {
-    public class caesarCipher 
+    public class CaesarCipher 
     {
         public void run(){
-            sharedLib.printCypherName("Caesar Cypher");
-            sharedLib.printCypherMenu();
+            SharedLib.printCipherName("Caesar Cipher");
+            SharedLib.printCipherMenu();
 
             var option = Console.ReadLine();
-            if (sharedLib.validateOption(option, new int[] {1,2,9})){
+            if (SharedLib.validateOption(option, new int[] {1,2,9})){
                 var optionValue = int.Parse(option);
-                int skip = sharedLib.inputIntKey();
+                int skip = SharedLib.inputIntKey();
                 switch (optionValue)
                 {
                     case 1:
@@ -53,7 +53,7 @@ namespace cryptography.historicAlgorithms
 
             for (int i = 1; i <= 26; i++)
             {
-                var ulocs = sharedLib.GetCharIndexInString(osb.ToString(), (char)(i+64));
+                var ulocs = SharedLib.GetCharIndexInString(osb.ToString(), (char)(i+64));
 
                 foreach (var uloc in ulocs)
                 {
@@ -66,7 +66,7 @@ namespace cryptography.historicAlgorithms
                     }
                 }
 
-                var llocs = sharedLib.GetCharIndexInString(osb.ToString(), (char)(i+96));
+                var llocs = SharedLib.GetCharIndexInString(osb.ToString(), (char)(i+96));
 
                 foreach (var lloc in llocs)
                 {

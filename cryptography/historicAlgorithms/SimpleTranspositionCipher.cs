@@ -5,17 +5,17 @@ using System.Text;
 
 namespace cryptography.historicAlgorithms
 {
-    public class simpleTranspositionCipher
+    public class SimpleTranspositionCipher
     {
         internal void run()
         {
-            sharedLib.printCypherName("Caesar Cypher");
-            sharedLib.printCypherMenu();
+            SharedLib.printCipherName("Caesar Cipher");
+            SharedLib.printCipherMenu();
 
             var option = Console.ReadLine();
-            if (sharedLib.validateOption(option, new int[] {1,2,9})){
+            if (SharedLib.validateOption(option, new int[] {1,2,9})){
                 var optionValue = int.Parse(option);
-                int key = sharedLib.inputIntKey();
+                int key = SharedLib.inputIntKey();
                 switch (optionValue)
                 {
                     case 1:

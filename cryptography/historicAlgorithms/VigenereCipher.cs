@@ -5,25 +5,25 @@ using System.Text;
 
 namespace cryptography.historicAlgorithms
 {
-    public class vigenereCipher
+    public class VigenereCipher
     {
-        private caesarCipher caesar = new caesarCipher();
+        private CaesarCipher caesar = new CaesarCipher();
         public void run(){
-            sharedLib.printCypherName("Vigenère Cipher");
-            sharedLib.printCypherMenu();
+            SharedLib.printCipherName("Vigenère Cipher");
+            SharedLib.printCipherMenu();
             var option = Console.ReadLine();
-            if (sharedLib.validateOption(option, new int[] {1,2,9})){
+            if (SharedLib.validateOption(option, new int[] {1,2,9})){
                 var optionValue = int.Parse(option);
 
                 switch (optionValue)
                 {
                     case 1:
 
-                        var keyPhrase = sharedLib.generatePhraseKey(false);
+                        var keyPhrase = SharedLib.generatePhraseKey(false);
                         encode(keyPhrase);
                         break;  
                     case 2:
-                        var key = sharedLib.inputKey(true);
+                        var key = SharedLib.inputKey(true);
                         decode(key);
                         break;
                     case 9:

@@ -6,25 +6,25 @@ using System.Text;
 
 namespace cryptography.historicAlgorithms
 {
-    public class simpleSubCipher
+    public class SimpleSubCipher
     {
         public void run()
         {
-            sharedLib.printCypherName("Simple Substitution Cypher");
-            sharedLib.printCypherMenu();
+            SharedLib.printCipherName("Simple Substitution Cipher");
+            SharedLib.printCipherMenu();
 
             var option = Console.ReadLine();
-            if (sharedLib.validateOption(option, new int[] {1,2,9})){
+            if (SharedLib.validateOption(option, new int[] {1,2,9})){
                 var optionValue = int.Parse(option);
                 switch (optionValue)
                 {
                     case 1:
-                        var ekey = sharedLib.identifyKey(true);
-                        sharedLib.printKey(ekey);
+                        var ekey = SharedLib.identifyKey(true);
+                        SharedLib.printKey(ekey);
                         encode(ekey);
                         break;  
                     case 2:
-                        var dkey = sharedLib.inputKey();
+                        var dkey = SharedLib.inputKey();
                         decode(dkey);
                         break;
                     case 9:
@@ -64,7 +64,7 @@ namespace cryptography.historicAlgorithms
                     replace = (char)(i+96);
                 }
 
-                var llocs = sharedLib.GetCharIndexInString(osb.ToString(), find);
+                var llocs = SharedLib.GetCharIndexInString(osb.ToString(), find);
 
                 foreach (var lloc in llocs)
                 {
