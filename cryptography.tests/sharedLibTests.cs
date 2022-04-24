@@ -6,12 +6,12 @@ namespace cryptography.Tests
     [TestFixture]
     public class sharedLibTests
     {
-        private sharedLib _sharedLib;
+        private SharedLib _sharedLib;
 
         [SetUp]
         public void Setup()
         {
-            _sharedLib = new sharedLib();
+            _sharedLib = new SharedLib();
         }
 
         [Test]
@@ -21,7 +21,7 @@ namespace cryptography.Tests
         [TestCase("2",new int[] {1, 3, 4, 5})]
         public void validatorTestExpectedFailures(String option, int[] acceptedValues)
         {
-            var result = sharedLib.validateOption(option, acceptedValues);
+            var result = SharedLib.validateOption(option, acceptedValues);
             Assert.IsFalse(result);
         }
 
@@ -30,7 +30,7 @@ namespace cryptography.Tests
         [TestCase("5",new int[] {0, 2, 3, 4, 5})]
         public void validatorTestExpectedPasses(String option, int[] acceptedValues)
         {
-            var result = sharedLib.validateOption(option, acceptedValues);
+            var result = SharedLib.validateOption(option, acceptedValues);
             Assert.IsTrue(result);
         }
 
@@ -41,7 +41,7 @@ namespace cryptography.Tests
         public void charIndexInStringTestExpectedPasses(String fullText, char val, int[] expected)
         {
             var trueCount = 0;
-            var results = sharedLib.GetCharIndexInString(fullText, val);
+            var results = SharedLib.GetCharIndexInString(fullText, val);
             
             foreach (var r in results)
             {

@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 
 namespace cryptography
 {
-    public class sharedLib 
+    public class SharedLib 
     {
 
         public static bool validateOption (string option, int[] acceptedValues) {
@@ -138,7 +138,7 @@ namespace cryptography
                 Console.WriteLine("2. Phrase key");
                 var keySelect = Console.ReadLine();
 
-                if (sharedLib.validateOption(keySelect, new int[] {1,2})){
+                if (SharedLib.validateOption(keySelect, new int[] {1,2})){
                     var option = int.Parse(keySelect);
                     switch (option)
                     {
