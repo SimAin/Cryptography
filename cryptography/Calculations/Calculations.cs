@@ -9,45 +9,42 @@ namespace cryptography.Calculations
         static List<string> outputString = new List<string>();
         public void run()
         {
-            printMenu();
-            var option = Console.ReadLine();
-            if (sharedLib.validateOption(option, new[] {1,2,3,9})){
-                var optionValue = int.Parse(option);
-                switch (optionValue)
+            
+            var exit = false;
+            do
+            {
+                printMenu();
+                var option = Console.ReadLine();
+                if (SharedLib.validateOption(option, new[] {1, 2, 3, 4, 9}))
                 {
-                    case 1:
-                        int n = sharedLib.inputIntKey();
-                        eulersTotientFunction(n);
-                        break; 
-                    case 2:
-                        var r = gcd(sharedLib.inputIntKey(), sharedLib.inputIntKey());
-                        Console.WriteLine("Result: " + r);
-                        break;  
-                    case 3:
-                        outputString = new List<string>();
-                        var a = sharedLib.inputIntKey();
-                        var b = sharedLib.inputIntKey();
-                        EeaResult z = extendedEuclidAlgorithm(a,b);
-                        
-                        Console.WriteLine("");
-                        Console.WriteLine("Calculation table: ");
-                        outputString.Reverse();
-                        foreach (var s in outputString)
-                        {
-                            Console.WriteLine(s);
-                        }
-                        
-                        Console.WriteLine("");
-                        Console.WriteLine("Result d: " + z.d);
-                        Console.WriteLine("Result x: " + z.x);
-                        Console.WriteLine("Result y: " + z.y);
-                        Console.WriteLine("ExtendedEuclid(" + a + "," + b + ") = " + z.d + " = (" + a + " x (" + 
-                                            z.x + ")) + (" + b + " x " + z.y + ")");
-                        break;  
-                    case 9:
-                        break;
+                    var optionValue = int.Parse(option);
+                    switch (optionValue)
+                    {
+                        case 1:
+                            int n = SharedLib.inputIntKey();
+                            eulersTotientFunction(n);
+                            break;
+                        case 2:
+                            var r = gcd(SharedLib.inputIntKey(), SharedLib.inputIntKey());
+                            Console.WriteLine("Result: " + r);
+                            break;
+                        case 3:
+                            outputString = new List<string>();
+                            var a = SharedLib.inputIntKey();
+                            var b = SharedLib.inputIntKey();
+                            EeaResult result = extendedEuclidAlgorithm(a, b);
+                            displayEeaResults(a, b, result);
+                            break;
+                        case 4:
+                            Console.WriteLine("Result: " +
+                                              mod(SharedLib.inputIntKey(), SharedLib.inputIntKey()));
+                            break;
+                        case 9:
+                            exit = true;
+                            break;
+                    }
                 }
-            }
+            } while (!exit);
         }
         
         private static EeaResult extendedEuclidAlgorithm(int a, int b)
@@ -89,7 +86,10 @@ namespace cryptography.Calculations
             
             for (int k = 1; k < n; k++)
             {
-                if (gcd(n, k) == 1)
+                var gcd = Calculations.gcd(n, k);
+                Console.WriteLine("n: " + n + " k: " + k + " gcd:" + gcd);
+                
+                if (gcd == 1)
                 {
                     count++;
                 }
@@ -122,7 +122,26 @@ namespace cryptography.Calculations
             Console.WriteLine("1. Euler's totient function - ϕ(n)");
             Console.WriteLine("2. Greatest common divide GCD");
             Console.WriteLine("3. Extended Euclid's algorithm ");
+            Console.WriteLine("4. Modulo calculator ");
             Console.WriteLine("9. Exit");
+        }
+
+        private static void displayEeaResults(int a, int b, EeaResult result)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("Calculation table: ");
+            outputString.Reverse();
+            foreach (var s in outputString)
+            {
+                Console.WriteLine(s);
+            }
+            
+            Console.WriteLine("");
+            Console.WriteLine("Result d: " + result.d);
+            Console.WriteLine("Result x: " + result.x);
+            Console.WriteLine("Result y: " + result.y);
+            Console.WriteLine("ExtendedEuclid(" + a + "," + b + ") = " + result.d + " = (" + a + " x (" + 
+                                            result.x + ")) + (" + b + " x " + result.y + ")");
         }
     }
 }
