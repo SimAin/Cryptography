@@ -59,28 +59,30 @@ namespace cryptography.historicAlgorithms
         private string replaceValsE(string fileString, int depth)
         {
             var osb = new StringBuilder(fileString);
-            var csb = new StringBuilder[depth];
-            
             var charList = osb.ToString().ToLower().ToCharArray();
 
-            //Create each rail.
-            for (int i = 0; i < depth; i++)
-            {
-                csb[i] = new StringBuilder();
-            }
+            //Create template rail structure from '.' and '_'
+            var placeholderRailStructure = createRailStructure(charList.Length, depth);
 
-            //Get rails populated with correct strings from input.
-            var csb2 = substituteValsIntoRailStructure(charList, csb, depth, true);
-
-            var output = "";
-            //Create ciphertext but concatenating rails.  
-            foreach (var rail in csb2)
+            //Replace '_' with plaintext letters
+            var valuesInRailStructure = substituteValsIntoRailStructure(charList, placeholderRailStructure, depth, false);
+            
+            //Output rails with chars for clarity. 
+            var output = new StringBuilder(charList.Length);
+            foreach (var rail in valuesInRailStructure)
             {
                 Console.WriteLine(rail.ToString());
-                output += rail;
+                
+                for (int i = 0; i < charList.Length; i++)
+                {
+                    if (rail[i] != '.')
+                    {
+                        output.Append(rail[i]);
+                    }
+                }
             }
-            
-            return output;
+
+            return output.ToString();
         }
         
         /// <summary>
@@ -93,7 +95,7 @@ namespace cryptography.historicAlgorithms
         {
             StringBuilder osb = new StringBuilder(fileString);
             var charList = osb.ToString().ToLower().ToCharArray();
-            StringBuilder[] csb = createRailStructureForDecoding(charList.Length, depth); 
+            StringBuilder[] csb = createRailStructure(charList.Length, depth); 
             
             var counter = 0;
             //Where a '_' is found, replace with corralling char from ciphertext. 
@@ -121,12 +123,12 @@ namespace cryptography.historicAlgorithms
         }
 
         /// <summary>
-        /// Creates structure and placement of placeholders for decoding process.
+        /// Creates structure and placement of placeholders.
         /// </summary>
         /// <param name="length"></param>
         /// <param name="depth"></param>
         /// <returns></returns>
-        private StringBuilder[] createRailStructureForDecoding(int length, int depth)
+        private StringBuilder[] createRailStructure(int length, int depth)
         {
             StringBuilder[] csb = new StringBuilder[depth];
             var tempCharList = new char[length];
