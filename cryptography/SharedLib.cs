@@ -61,13 +61,12 @@ namespace cryptography
         }
         public static int inputIntKey(){
             var valid = false;
-            int value; 
             string key;
             do
             {
                 Console.WriteLine("Input numeric key value:");
                 key = Console.ReadLine();
-                if(int.TryParse(key, out value)){
+                if(int.TryParse(key, out _)){
                     valid = true;
                 } else {
                     Console.WriteLine("Input error, retry.");
@@ -85,9 +84,9 @@ namespace cryptography
             {
                 Console.WriteLine("Enter key:");
                 var input = Console.ReadLine();
-                if (phraseAllowed || ((input.Length == 26) && !phraseAllowed)){
-                    char[] charList = new char[input.Length];
-                    charList = input.ToLower().ToCharArray();
+                if (phraseAllowed || ((input.Length == 26) && !phraseAllowed))
+                {
+                    var charList = input.ToLower().ToCharArray();
                     foreach (var c in charList)
                     {
                         key.Add(c);
@@ -147,8 +146,6 @@ namespace cryptography
                             break;
                         case 2:
                             key = generatePhraseKey(phraseFullAlpha);
-                            break;
-                        default:
                             break;
                     }
                     valid = true;

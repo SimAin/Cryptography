@@ -16,13 +16,15 @@ namespace cryptography.historicAlgorithms
                 switch (optionValue)
                 {
                     case 1:
+                        //Identify key allows selection of random key or phrase key.
                         var key = SharedLib.identifyKey(true);
                         var ekey = processKey(key);
                         printKey(key, ekey);
                         encode(ekey);
                         break;  
                     case 2:
-                        var inputKey = SharedLib.inputKey();
+                        //Generate phrase key used to make key from phrase or take full random key.
+                        var inputKey = SharedLib.generatePhraseKey((true));
                         var dkey = processKey(inputKey);
                         decode(dkey);
                         break;
@@ -31,6 +33,11 @@ namespace cryptography.historicAlgorithms
                 }
             }
         }
+        
+        /// <summary>
+        /// Takes key, reads input file and produces ciphertext.
+        /// </summary>
+        /// <param name="key"></param>
         private void encode(char[,] key)
         {
             var fileString = File.ReadAllText("files/input.txt");
@@ -40,6 +47,10 @@ namespace cryptography.historicAlgorithms
             File.WriteAllTextAsync("files/output.txt", output);
         }
 
+        /// <summary>
+        /// Takes key, reads output file and produces plaintext.
+        /// </summary>
+        /// <param name="key"></param>
         private void decode (char[,] key) {
             var fileString = File.ReadAllText("files/output.txt");
             var message = dSplitMessage(fileString);
@@ -48,6 +59,13 @@ namespace cryptography.historicAlgorithms
             File.WriteAllTextAsync("files/decoded.txt", output);
         }
 
+        /// <summary>
+        /// Takes message split into char pairs, replaces pairs with cipher/plain pair and outputs cipher/plaintext 
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="key"></param>
+        /// <param name="encrypt"></param>
+        /// <returns></returns>
         private string replaceValues(List<KeyValuePair<char, char>> message, char[,] key, bool encrypt)
         {
             var encryptedPairs = new List<KeyValuePair<char,char>>();
@@ -63,6 +81,14 @@ namespace cryptography.historicAlgorithms
             }
             return encryptedMessage;
         }
+        
+        /// <summary>
+        /// Replaces one pair of chars with the corresponding chars from key and returns new pair of chars.
+        /// </summary>
+        /// <param name="pair"></param>
+        /// <param name="key"></param>
+        /// <param name="encrypt"></param>
+        /// <returns></returns>
         private KeyValuePair<char,char> replacePair(KeyValuePair<char,char> pair, char[,] key, bool encrypt) 
         {
             var first = new KeyValuePair<int, int>();
@@ -126,6 +152,11 @@ namespace cryptography.historicAlgorithms
             return updatedPair;
         }
 
+        /// <summary>
+        /// Applies playfair rules to inputted message.
+        /// </summary>
+        /// <param name="inputMessage"></param>
+        /// <returns></returns>
         private List<KeyValuePair<char, char>> prepMessage (string inputMessage)
         {
             var osb = new StringBuilder(inputMessage.ToLower());
@@ -157,6 +188,11 @@ namespace cryptography.historicAlgorithms
             return couplets;
         }
 
+        /// <summary>
+        /// Encryption - split message into pairs.
+        /// </summary>
+        /// <param name="csb"></param>
+        /// <returns></returns>
         private List<KeyValuePair<char,char>> eSplitMessage (StringBuilder csb)
         {
             var couplets = new List<KeyValuePair<char, char>>();
@@ -177,6 +213,11 @@ namespace cryptography.historicAlgorithms
             return couplets;
         }
 
+        /// <summary>
+        /// Decryption - split message into pairs.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
         private List<KeyValuePair<char,char>> dSplitMessage (string message)
         {
             var couplets = new List<KeyValuePair<char, char>>();
@@ -188,6 +229,11 @@ namespace cryptography.historicAlgorithms
             return couplets;
         }
 
+        /// <summary>
+        /// Converts input key into playfair key (5x5 grid).
+        /// </summary>
+        /// <param name="randomKey"></param>
+        /// <returns></returns>
         private char[,] processKey(List<char> randomKey)
         {
             var key = new char[5,5];
@@ -209,6 +255,11 @@ namespace cryptography.historicAlgorithms
             return key;
         }
 
+        /// <summary>
+        /// Console output - Helper.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="encrypted"></param>
         private void printMessage(string message, bool encrypted){
             Console.WriteLine("");
             if (encrypted){
@@ -219,6 +270,11 @@ namespace cryptography.historicAlgorithms
             Console.WriteLine(message);
         }
 
+        /// <summary>
+        /// Console output - Key.
+        /// </summary>
+        /// <param name="randomKey"></param>
+        /// <param name="key"></param>
         private void printKey(List<char> randomKey, char[,] key)
         {
             SharedLib.printKey(randomKey);
@@ -237,6 +293,9 @@ namespace cryptography.historicAlgorithms
             Console.WriteLine("");
         }
 
+        /// <summary>
+        /// Console output - Menu
+        /// </summary>
         private void printMenu(){
             SharedLib.printCipherName("Playfair Cipher");
             Console.WriteLine("Rules: ");
