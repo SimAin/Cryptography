@@ -2,12 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using cryptography.Models;
 
-namespace cryptography.historicAlgorithms
+namespace cryptography.HistoricCiphers
 {
-    public class SimpleTranspositionCipher
+    public class SimpleTranspositionCipher : Cipher
     {
-        internal void run()
+        public SimpleTranspositionCipher(string name, CipherType type) : base(name, type)
+        {
+            Name = name;
+            Type = type;
+        }
+        
+        public override void run()
         {
             SharedLib.printCipherName("Caesar Cipher");
             SharedLib.printCipherMenu();

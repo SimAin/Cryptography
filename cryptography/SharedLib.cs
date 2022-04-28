@@ -111,10 +111,25 @@ namespace cryptography
             Console.WriteLine("");
             Console.WriteLine("");
         }
+        
+        /// <summary>
+        /// Console output - Print cipher name for consistent style.
+        /// </summary>
+        /// <param name="name"></param>
         public static void printCipherName(string name){
             Console.WriteLine("");
             Console.WriteLine("----------------------------");
             Console.WriteLine(name);
+            Console.WriteLine("");
+        }
+        
+        /// <summary>
+        /// Console output - Print invalid input for consistent style.
+        /// </summary>
+        /// <param name="name"></param>
+        public static void printInvalidInput(){
+            Console.WriteLine("");
+            Console.WriteLine("Invalid input, please retry.");
             Console.WriteLine("");
         }
 

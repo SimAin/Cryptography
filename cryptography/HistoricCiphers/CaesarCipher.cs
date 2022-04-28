@@ -1,13 +1,19 @@
-
 using System;
 using System.IO;
 using System.Text;
+using cryptography.Models;
 
-namespace cryptography.historicAlgorithms
+namespace cryptography.HistoricCiphers
 {
-    public class CaesarCipher 
+    public class CaesarCipher : Cipher 
     {
-        public void run(){
+        public CaesarCipher(string name, CipherType type) : base(name, type)
+        {
+            Name = name;
+            Type = type;
+        }
+        
+        public override void run(){
             SharedLib.printCipherName("Caesar Cipher");
             SharedLib.printCipherMenu();
 

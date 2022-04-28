@@ -2,12 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using cryptography.Models;
 
-namespace cryptography.historicAlgorithms
+namespace cryptography.HistoricCiphers
 {
-    public class VigenereCipher
+    public class VigenereCipher : Cipher
     {
-        public void run(){
+        public VigenereCipher(string name, CipherType type) : base(name, type)
+        {
+            Name = name;
+            Type = type;
+        }
+        
+        public override void run(){
             SharedLib.printCipherName("Vigenère Cipher");
             SharedLib.printCipherMenu();
             var option = Console.ReadLine();

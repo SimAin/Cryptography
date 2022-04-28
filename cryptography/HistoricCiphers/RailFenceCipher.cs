@@ -1,12 +1,19 @@
 using System;
 using System.IO;
 using System.Text;
+using cryptography.Models;
 
-namespace cryptography.historicAlgorithms
+namespace cryptography.HistoricCiphers
 {
-    public class RailFenceCipher
+    public class RailFenceCipher : Cipher
     {
-        public void run(){
+        public RailFenceCipher(string name, CipherType type) : base(name, type)
+        {
+            Name = name;
+            Type = type;
+        }
+        
+        public override void run(){
             SharedLib.printCipherName("Rail Fence Cipher");
             SharedLib.printCipherMenu();
 

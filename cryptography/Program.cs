@@ -1,18 +1,13 @@
 ﻿using System;
-using cryptography.historicAlgorithms;
+using cryptography.Models;
 
 namespace cryptography
 {
     class Program
     {
-        private static CaesarCipher caesar = new CaesarCipher();
-        private static SimpleSubCipher simpleSub = new SimpleSubCipher();
-        private static PlayfairCipher playfair = new PlayfairCipher();
-        private static VigenereCipher vigenere = new VigenereCipher();
-        private static SimpleTranspositionCipher trans = new SimpleTranspositionCipher();
-        private static RailFenceCipher railFence = new RailFenceCipher();
         private static Calculations.Calculations calcs = new Calculations.Calculations();
-        
+        private static CipherList cipherList = new CipherList();
+
         static void Main(string[] args)
         {
             var exit = false;
@@ -25,16 +20,14 @@ namespace cryptography
                 Console.WriteLine("");
                 Console.WriteLine("Select algorithm below to encrypt/decrypt files.");
                 Console.WriteLine("");
-                Console.WriteLine("Substitution ciphers:");
-                Console.WriteLine("1. Caesar cipher");
-                Console.WriteLine("2. Simple substitution cipher");
-                Console.WriteLine("3. Playfair cipher");
-                Console.WriteLine("4. Vigenère cipher");
+
+                foreach (var c in cipherList.getValidCipherOptions())
+                {
+                    Console.WriteLine(c + ") " + cipherList.Ciphers[c].Name + " (" + cipherList.Ciphers[c].Type + ")");
+                }
+                
                 Console.WriteLine("");
-                Console.WriteLine("Transposition ciphers:");
-                //TODO: Columnar, Multi-stage columnar
-                Console.WriteLine("5. Simple transposition cipher");
-                Console.WriteLine("6. Rail fence cipher");
+                Console.WriteLine("7. Custom composite cipher");
                 Console.WriteLine("");
                 //TODO: Composite (product) ciphers - Feistel 
                 Console.WriteLine("88. Calculations");
@@ -43,37 +36,19 @@ namespace cryptography
 
                 var option = Console.ReadLine();
 
-                if (SharedLib.validateOption(option, new[] {1,2,3,4,5,6,88,99})){
+                if (option != null)
+                {
                     var optionValue = int.Parse(option);
-                    switch (optionValue)
-                    {
-                        case 1:
-                            caesar.run();
-                            break;
-                        case 2:
-                            simpleSub.run();
-                            break;
-                        case 3:
-                            playfair.run();
-                            break;
-                        case 4: 
-                            vigenere.run();
-                            break;
-                        case 5:
-                            trans.run();
-                            break;
-                        case 6:
-                            railFence.run();
-                            break;
-                        case 88:
-                            calcs.run();
-                            break;
-                        case 99:
-                            exit = true;
-                            break;
+                    
+                    if (cipherList.getValidCipherOptions().Contains(optionValue)) {
+                        cipherList.Ciphers[optionValue].run();
+                    } else if (optionValue == 88) {
+                        calcs.run();
+                    } else if (optionValue == 99) {
+                        exit = true;
+                    } else {
+                        SharedLib.printInvalidInput();
                     }
-                } else {
-                    Console.WriteLine("Input invalid.");
                 }
             } while (!exit);
         }

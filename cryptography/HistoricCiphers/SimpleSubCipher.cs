@@ -2,12 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using cryptography.Models;
 
-namespace cryptography.historicAlgorithms
+namespace cryptography.HistoricCiphers
 {
-    public class SimpleSubCipher
+    public class SimpleSubCipher : Cipher
     {
-        public void run()
+        public SimpleSubCipher(string name, CipherType type) : base(name, type)
+        {
+            Name = name;
+            Type = type;
+        }
+        
+        public override void run()
         {
             SharedLib.printCipherName("Simple Substitution Cipher");
             SharedLib.printCipherMenu();
@@ -71,7 +78,5 @@ namespace cryptography.historicAlgorithms
             }
             return csb.ToString();
         }
-
-
     }
 }

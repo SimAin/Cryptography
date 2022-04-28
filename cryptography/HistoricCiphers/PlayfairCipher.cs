@@ -2,12 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using cryptography.Models;
 
-namespace cryptography.historicAlgorithms
+namespace cryptography.HistoricCiphers
 {
-    public class PlayfairCipher 
+    public class PlayfairCipher : Cipher 
     {
-        public void run(){
+        public PlayfairCipher(string name, CipherType type) : base(name, type)
+        {
+            Name = name;
+            Type = type;
+        }
+        
+        public override void run(){
             printMenu();
             var option = Console.ReadLine();
             if (SharedLib.validateOption(option, new[] {1,2,9})){
