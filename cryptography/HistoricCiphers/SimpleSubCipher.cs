@@ -14,8 +14,8 @@ namespace cryptography.HistoricCiphers
             Type = type;
         }
         
-        public override void run()
-        {
+        public override void run(string inputFile = "files/input.txt", string encodedFile = "files/output.txt", string decodedFile = "files/decoded.txt"){
+        
             SharedLib.printCipherName("Simple Substitution Cipher");
             SharedLib.printCipherMenu();
 
@@ -27,11 +27,11 @@ namespace cryptography.HistoricCiphers
                     case 1:
                         var ekey = SharedLib.identifyKey(true);
                         SharedLib.printKey(ekey);
-                        encode(ekey);
+                        encode(ekey, inputFile, encodedFile);
                         break;  
                     case 2:
                         var dkey = SharedLib.inputKey();
-                        decode(dkey);
+                        decode(dkey, encodedFile, decodedFile);
                         break;
                     case 9:
                         break;
@@ -39,19 +39,20 @@ namespace cryptography.HistoricCiphers
             }
         }
 
-        private void encode(List<char> key)
-        {
-            var fileString = File.ReadAllText("files/input.txt");
+        private void encode (List<char> key, string readFromFile, string writeToFile) {
+        
+            var fileString = File.ReadAllText(readFromFile);
             var output = replaceVals(fileString, key, false);
             Console.WriteLine(output);
-            File.WriteAllTextAsync("files/output.txt", output);
+            File.WriteAllTextAsync(writeToFile, output);
         }
 
-        private void decode (List<char> key) {
-            var fileString = File.ReadAllText("files/output.txt");
+        private void decode (List<char> key, string readFromFile, string writeToFile) {
+            
+            var fileString = File.ReadAllText(readFromFile);
             var output = replaceVals(fileString, key, true);
             Console.WriteLine(output);
-            File.WriteAllTextAsync("files/decoded.txt", output);
+            File.WriteAllTextAsync(writeToFile, output);
         }
 
         private static string replaceVals(string fileString, List<char> key, bool decode)

@@ -14,8 +14,8 @@ namespace cryptography.HistoricCiphers
             Type = type;
         }
         
-        public override void run()
-        {
+        public override void run(string inputFile = "files/input.txt", string encodedFile = "files/output.txt", string decodedFile = "files/decoded.txt"){
+        
             SharedLib.printCipherName("Caesar Cipher");
             SharedLib.printCipherMenu();
 
@@ -26,10 +26,10 @@ namespace cryptography.HistoricCiphers
                 switch (optionValue)
                 {
                     case 1:
-                        encode(key);
+                        encode(key, inputFile, encodedFile);
                         break;  
                     case 2:
-                        decode(key);
+                        decode(key, encodedFile, decodedFile);
                         break;
                     case 9:
                         break;
@@ -37,21 +37,21 @@ namespace cryptography.HistoricCiphers
             }
         }
 
-        private void decode(int key)
-        {
-            var fileString = File.ReadAllText("files/output.txt");
+        private void encode (int key, string readFromFile, string writeToFile) {
+        
+            var fileString = File.ReadAllText(readFromFile);
+            var output = replaceVals(fileString, key);
+            Console.WriteLine(output);
+            File.WriteAllTextAsync(writeToFile, output);
+        }
+        
+        private void decode (int key, string readFromFile, string writeToFile) {
+            
+            var fileString = File.ReadAllText(readFromFile);
             key = fileString.Length / key;
             var output = replaceVals(fileString, key);
             Console.WriteLine(output);
-            File.WriteAllTextAsync("files/decoded.txt", output);
-        }
-
-        private void encode(int key)
-        {
-            var fileString = File.ReadAllText("files/input.txt");
-            var output = replaceVals(fileString, key);
-            Console.WriteLine(output);
-            File.WriteAllTextAsync("files/output.txt", output);
+            File.WriteAllTextAsync(writeToFile, output);
         }
 
         private string replaceVals(string fileString, int key)

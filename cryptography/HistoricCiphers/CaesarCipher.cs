@@ -13,7 +13,7 @@ namespace cryptography.HistoricCiphers
             Type = type;
         }
         
-        public override void run(){
+        public override void run(string inputFile = "files/input.txt", string encodedFile = "files/output.txt", string decodedFile = "files/decoded.txt"){
             SharedLib.printCipherName("Caesar Cipher");
             SharedLib.printCipherMenu();
 
@@ -24,10 +24,10 @@ namespace cryptography.HistoricCiphers
                 switch (optionValue)
                 {
                     case 1:
-                        encode(skip);
+                        encode(skip, inputFile, encodedFile);
                         break;  
                     case 2:
-                        decode(skip);
+                        decode(skip, encodedFile, decodedFile);
                         break;
                     case 9:
                         break;
@@ -35,18 +35,18 @@ namespace cryptography.HistoricCiphers
             }
         }
 
-        public void encode (int skip) {
-            var fileString = File.ReadAllText("files/input.txt");
+        public void encode (int skip, string readFromFile, string writeToFile) {
+            var fileString = File.ReadAllText(readFromFile);
             var output = replaceVals(fileString, skip);
             Console.WriteLine(output);
-            File.WriteAllTextAsync("files/output.txt", output);
+            File.WriteAllTextAsync(writeToFile, output);
         }
 
-        private void decode (int skip) {
-            var fileString = File.ReadAllText("files/output.txt");
+        private void decode (int skip, string readFromFile, string writeToFile) {
+            var fileString = File.ReadAllText(readFromFile);
             var output = replaceVals(fileString, 26-skip);
             Console.WriteLine(output);
-            File.WriteAllTextAsync("files/decoded.txt", output);
+            File.WriteAllTextAsync(writeToFile, output);
         }
 
         private static string replaceVals(string fileString, int skip){

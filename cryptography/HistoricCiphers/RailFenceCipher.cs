@@ -13,7 +13,7 @@ namespace cryptography.HistoricCiphers
             Type = type;
         }
         
-        public override void run(){
+        public override void run(string inputFile = "files/input.txt", string encodedFile = "files/output.txt", string decodedFile = "files/decoded.txt"){
             SharedLib.printCipherName("Rail Fence Cipher");
             SharedLib.printCipherMenu();
 
@@ -24,10 +24,10 @@ namespace cryptography.HistoricCiphers
                 switch (optionValue)
                 {
                     case 1:
-                        encode(depth);
+                        encode(depth, inputFile, encodedFile);
                         break;  
                     case 2:
-                        decode(depth);
+                        decode(depth, encodedFile, decodedFile);
                         break;
                     case 9:
                         break;
@@ -39,22 +39,27 @@ namespace cryptography.HistoricCiphers
         /// Takes key, reads input file and produces ciphertext.
         /// </summary>
         /// <param name="depth"></param>
-        private void encode (int depth) {
-            var fileString = File.ReadAllText("files/input.txt");
+        /// <param name="readFromFile"></param>
+        /// <param name="writeToFile"></param>
+        private void encode (int depth, string readFromFile, string writeToFile) {
+            var fileString = File.ReadAllText(readFromFile);
             var output = replaceValsE(fileString, depth);
             Console.WriteLine(output);
-            File.WriteAllTextAsync("files/output.txt", output);
+            File.WriteAllTextAsync(writeToFile, output);
         }
 
         /// <summary>
         /// Takes key, reads output file and produces plaintext.
         /// </summary>
         /// <param name="depth"></param>
-        private void decode (int depth) {
-            var fileString = File.ReadAllText("files/output.txt");
+        /// <param name="readFromFile"></param>
+        /// <param name="writeToFile"></param>
+        private void decode (int depth, string readFromFile, string writeToFile) {
+            
+            var fileString = File.ReadAllText(readFromFile);
             var output = replaceValsD(fileString, depth);
             Console.WriteLine(output);
-            File.WriteAllTextAsync("files/decoded.txt", output);
+            File.WriteAllTextAsync(writeToFile, output);
         }
 
         /// <summary>

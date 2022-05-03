@@ -11,6 +11,8 @@ namespace cryptography.Models
             Type = type;
         }
         
-        public virtual void run(){}
+        public virtual void run(string inputFile = "files/input.txt", 
+                                string encodedFile = "files/output.txt",
+                                string decodedFile = "files/decoded.txt") { }
     }
 }

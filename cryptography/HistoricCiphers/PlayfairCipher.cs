@@ -14,7 +14,7 @@ namespace cryptography.HistoricCiphers
             Type = type;
         }
         
-        public override void run(){
+        public override void run(string inputFile = "files/input.txt", string encodedFile = "files/output.txt", string decodedFile = "files/decoded.txt"){
             printMenu();
             var option = Console.ReadLine();
             if (SharedLib.validateOption(option, new[] {1,2,9})){
@@ -27,43 +27,48 @@ namespace cryptography.HistoricCiphers
                         var key = SharedLib.identifyKey(true);
                         var ekey = processKey(key);
                         printKey(key, ekey);
-                        encode(ekey);
+                        encode(ekey, inputFile, encodedFile);
                         break;  
                     case 2:
                         //Generate phrase key used to make key from phrase or take full random key.
                         var inputKey = SharedLib.generatePhraseKey((true));
                         var dkey = processKey(inputKey);
-                        decode(dkey);
+                        decode(dkey, encodedFile, decodedFile);
                         break;
                     case 9:
                         break;
                 }
             }
         }
-        
+
         /// <summary>
         /// Takes key, reads input file and produces ciphertext.
         /// </summary>
         /// <param name="key"></param>
-        private void encode(char[,] key)
-        {
-            var fileString = File.ReadAllText("files/input.txt");
+        /// <param name="readFromFile"></param>
+        /// <param name="writeToFile"></param>
+        private void encode (char[,] key, string readFromFile, string writeToFile) {
+        
+            var fileString = File.ReadAllText(readFromFile);
             var message = prepMessage(fileString);
             var output = replaceValues(message, key, true);
             printMessage(output, true);
-            File.WriteAllTextAsync("files/output.txt", output);
+            File.WriteAllTextAsync(writeToFile, output);
         }
 
         /// <summary>
         /// Takes key, reads output file and produces plaintext.
         /// </summary>
         /// <param name="key"></param>
-        private void decode (char[,] key) {
-            var fileString = File.ReadAllText("files/output.txt");
+        /// <param name="readFromFile"></param>
+        /// <param name="writeToFile"></param>
+        private void decode (char[,] key, string readFromFile, string writeToFile) {
+            
+            var fileString = File.ReadAllText(readFromFile);
             var message = dSplitMessage(fileString);
             var output = replaceValues(message, key, false);
             printMessage(output, false);
-            File.WriteAllTextAsync("files/decoded.txt", output);
+            File.WriteAllTextAsync(writeToFile, output);
         }
 
         /// <summary>

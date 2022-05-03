@@ -14,7 +14,7 @@ namespace cryptography.HistoricCiphers
             Type = type;
         }
         
-        public override void run(){
+        public override void run(string inputFile = "files/input.txt", string encodedFile = "files/output.txt", string decodedFile = "files/decoded.txt"){
             SharedLib.printCipherName("Vigenère Cipher");
             SharedLib.printCipherMenu();
             var option = Console.ReadLine();
@@ -26,31 +26,32 @@ namespace cryptography.HistoricCiphers
                     case 1:
 
                         var keyPhrase = SharedLib.generatePhraseKey(false);
-                        encode(keyPhrase);
+                        encode(keyPhrase, inputFile, encodedFile);
                         break;  
                     case 2:
                         var key = SharedLib.inputKey(true);
-                        decode(key);
+                        decode(key, encodedFile, decodedFile);
                         break;
                     case 9:
                         break;
                 }
             }
         }
-        private void encode(List<char> keyPhrase)
-        {
-            var fileString = File.ReadAllText("files/input.txt");
+        public void encode (List<char> keyPhrase, string readFromFile, string writeToFile) {
+        
+            var fileString = File.ReadAllText(readFromFile);
             var key = generateFullKey(fileString.Length, keyPhrase);
             var output = replaceValues(fileString, key, true);
             Console.WriteLine(output);
-            File.WriteAllTextAsync("files/output.txt", output);
+            File.WriteAllTextAsync(writeToFile, output);
         }
-        private void decode (List<char> keyPhrase) {
-            var fileString = File.ReadAllText("files/output.txt");
+        private void decode (List<char> keyPhrase, string readFromFile, string writeToFile) {
+            
+            var fileString = File.ReadAllText(readFromFile);
             var key = generateFullKey(fileString.Length, keyPhrase);
             var output = replaceValues(fileString, key, false);
             Console.WriteLine(output);
-            File.WriteAllTextAsync("files/decoded.txt", output);
+            File.WriteAllTextAsync(writeToFile, output);
         }
 
         private string replaceValues(string fileString, List<char> key, bool encrypt)

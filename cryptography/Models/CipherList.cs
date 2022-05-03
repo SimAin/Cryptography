@@ -7,7 +7,7 @@ namespace cryptography.Models
     public class CipherList 
     {
         public Dictionary<int,Cipher> Ciphers { get; }
-
+        
         public CipherList()
         {
             Ciphers = new Dictionary<int, Cipher>
