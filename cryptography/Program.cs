@@ -1,5 +1,6 @@
 ﻿using System;
 using cryptography.Models;
+using cryptography.Services;
 
 namespace cryptography
 {
@@ -47,7 +48,7 @@ namespace cryptography
                     } else if (optionValue == 99) {
                         exit = true;
                     } else {
-                        SharedLib.printInvalidInput();
+                        UserInteractionService.printInvalidInput();
                     }
                 }
             } while (!exit);
