@@ -1,11 +1,14 @@
 ﻿using System;
 using cryptography.Models;
+using cryptography.ModernCiphers;
+using cryptography.Services;
 
 namespace cryptography
 {
     class Program
     {
         private static Calculations.Calculations calcs = new Calculations.Calculations();
+        private static CustomCompositeCipher customCompositeCipher = new CustomCompositeCipher();
         private static CipherList cipherList = new CipherList();
 
         static void Main(string[] args)
@@ -42,12 +45,14 @@ namespace cryptography
                     
                     if (cipherList.getValidCipherOptions().Contains(optionValue)) {
                         cipherList.Ciphers[optionValue].run();
+                    } else if (optionValue == 7) {
+                        customCompositeCipher.run(cipherList);
                     } else if (optionValue == 88) {
                         calcs.run();
                     } else if (optionValue == 99) {
                         exit = true;
                     } else {
-                        SharedLib.printInvalidInput();
+                        UserInteractionService.printInvalidInput();
                     }
                 }
             } while (!exit);
