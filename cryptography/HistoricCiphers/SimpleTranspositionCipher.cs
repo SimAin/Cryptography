@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using cryptography.Models;
+using cryptography.Services;
 
 namespace cryptography.HistoricCiphers
 {
@@ -16,13 +17,13 @@ namespace cryptography.HistoricCiphers
         
         public override void run(string inputFile = "files/input.txt", string encodedFile = "files/output.txt", string decodedFile = "files/decoded.txt"){
         
-            SharedLib.printCipherName("Caesar Cipher");
-            SharedLib.printCipherMenu();
+            UserInteractionService.printCipherName("Caesar Cipher");
+            UserInteractionService.printCipherMenu();
 
             var option = Console.ReadLine();
-            if (SharedLib.validateOption(option, new[] {1,2,9})){
+            if (UserInteractionService.validateOption(option, new[] {1,2,9})){
                 var optionValue = int.Parse(option);
-                int key = SharedLib.inputIntKey();
+                int key = UserInteractionService.inputIntKey();
                 switch (optionValue)
                 {
                     case 1:

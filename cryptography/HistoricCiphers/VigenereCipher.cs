@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using cryptography.Models;
+using cryptography.Services;
 
 namespace cryptography.HistoricCiphers
 {
@@ -15,21 +16,21 @@ namespace cryptography.HistoricCiphers
         }
         
         public override void run(string inputFile = "files/input.txt", string encodedFile = "files/output.txt", string decodedFile = "files/decoded.txt"){
-            SharedLib.printCipherName("Vigenère Cipher");
-            SharedLib.printCipherMenu();
+            UserInteractionService.printCipherName("Vigenère Cipher");
+            UserInteractionService.printCipherMenu();
             var option = Console.ReadLine();
-            if (SharedLib.validateOption(option, new[] {1,2,9})){
+            if (UserInteractionService.validateOption(option, new[] {1,2,9})){
                 var optionValue = int.Parse(option);
 
                 switch (optionValue)
                 {
                     case 1:
 
-                        var keyPhrase = SharedLib.generatePhraseKey(false);
+                        var keyPhrase = KeyGenerationService.generatePhraseKey(false);
                         encode(keyPhrase, inputFile, encodedFile);
                         break;  
                     case 2:
-                        var key = SharedLib.inputKey(true);
+                        var key = UserInteractionService.inputKey(true);
                         decode(key, encodedFile, decodedFile);
                         break;
                     case 9:

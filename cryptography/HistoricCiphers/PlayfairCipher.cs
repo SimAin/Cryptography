@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using cryptography.Models;
+using cryptography.Services;
 
 namespace cryptography.HistoricCiphers
 {
@@ -17,21 +18,21 @@ namespace cryptography.HistoricCiphers
         public override void run(string inputFile = "files/input.txt", string encodedFile = "files/output.txt", string decodedFile = "files/decoded.txt"){
             printMenu();
             var option = Console.ReadLine();
-            if (SharedLib.validateOption(option, new[] {1,2,9})){
+            if (UserInteractionService.validateOption(option, new[] {1,2,9})){
                 var optionValue = int.Parse(option);
 
                 switch (optionValue)
                 {
                     case 1:
                         //Identify key allows selection of random key or phrase key.
-                        var key = SharedLib.identifyKey(true);
+                        var key = UserInteractionService.identifyKeyType(true);
                         var ekey = processKey(key);
                         printKey(key, ekey);
                         encode(ekey, inputFile, encodedFile);
                         break;  
                     case 2:
                         //Generate phrase key used to make key from phrase or take full random key.
-                        var inputKey = SharedLib.generatePhraseKey((true));
+                        var inputKey = KeyGenerationService.generatePhraseKey((true));
                         var dkey = processKey(inputKey);
                         decode(dkey, encodedFile, decodedFile);
                         break;
@@ -175,7 +176,7 @@ namespace cryptography.HistoricCiphers
             var csb = new StringBuilder(inputMessage.ToLower());
 
             //Find and replace all 'j' chars with 'i'
-            var jlocs = SharedLib.GetCharIndexInString(osb.ToString(), 'j');
+            var jlocs = StringOperationsService.getCharIndexInString(osb.ToString(), 'j');
 
             foreach (var jloc in jlocs)
             {
@@ -289,7 +290,7 @@ namespace cryptography.HistoricCiphers
         /// <param name="key"></param>
         private void printKey(List<char> randomKey, char[,] key)
         {
-            SharedLib.printKey(randomKey);
+            UserInteractionService.printKey(randomKey);
             Console.WriteLine("Random key formatted: ");
             Console.WriteLine("");
             for (int i = 0; i < 5; i++)
@@ -309,14 +310,14 @@ namespace cryptography.HistoricCiphers
         /// Console output - Menu
         /// </summary>
         private void printMenu(){
-            SharedLib.printCipherName("Playfair Cipher");
+            UserInteractionService.printCipherName("Playfair Cipher");
             Console.WriteLine("Rules: ");
             Console.WriteLine("a) Instances of the letter `j` are replaced with `i`. ");
             Console.WriteLine("b) Identical pairs of letters with be broken with a `z`. ");
             Console.WriteLine("c) If there are an odd no of letters a `z` will be placed at the end. ");
             Console.WriteLine("d) Spaces and capitals will be removed.");
             Console.WriteLine("");
-            SharedLib.printCipherMenu();
+            UserInteractionService.printCipherMenu();
         }
     }
 }

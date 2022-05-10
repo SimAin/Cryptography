@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using cryptography.Models;
+using cryptography.Services;
 
 namespace cryptography.Calculations
 {
@@ -14,29 +15,29 @@ namespace cryptography.Calculations
             {
                 printMenu();
                 var option = Console.ReadLine();
-                if (SharedLib.validateOption(option, new[] {1, 2, 3, 4, 9}))
+                if (UserInteractionService.validateOption(option, new[] {1, 2, 3, 4, 9}))
                 {
                     var optionValue = int.Parse(option);
                     switch (optionValue)
                     {
                         case 1:
-                            int n = SharedLib.inputIntKey();
+                            int n = UserInteractionService.inputIntKey();
                             eulersTotientFunction(n);
                             break;
                         case 2:
-                            var r = gcd(SharedLib.inputIntKey(), SharedLib.inputIntKey());
+                            var r = gcd(UserInteractionService.inputIntKey(), UserInteractionService.inputIntKey());
                             Console.WriteLine("Result: " + r);
                             break;
                         case 3:
                             outputString = new List<string>();
-                            var a = SharedLib.inputIntKey();
-                            var b = SharedLib.inputIntKey();
+                            var a = UserInteractionService.inputIntKey();
+                            var b = UserInteractionService.inputIntKey();
                             EeaResult result = extendedEuclidAlgorithm(a, b);
                             displayEeaResults(a, b, result);
                             break;
                         case 4:
                             Console.WriteLine("Result: " +
-                                              mod(SharedLib.inputIntKey(), SharedLib.inputIntKey()));
+                                              mod(UserInteractionService.inputIntKey(), UserInteractionService.inputIntKey()));
                             break;
                         case 9:
                             exit = true;

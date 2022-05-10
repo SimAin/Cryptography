@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using cryptography.Models;
+using cryptography.Services;
 
 namespace cryptography.HistoricCiphers
 {
@@ -16,21 +17,21 @@ namespace cryptography.HistoricCiphers
         
         public override void run(string inputFile = "files/input.txt", string encodedFile = "files/output.txt", string decodedFile = "files/decoded.txt"){
         
-            SharedLib.printCipherName("Simple Substitution Cipher");
-            SharedLib.printCipherMenu();
+            UserInteractionService.printCipherName("Simple Substitution Cipher");
+            UserInteractionService.printCipherMenu();
 
             var option = Console.ReadLine();
-            if (SharedLib.validateOption(option, new[] {1,2,9})){
+            if (UserInteractionService.validateOption(option, new[] {1,2,9})){
                 var optionValue = int.Parse(option);
                 switch (optionValue)
                 {
                     case 1:
-                        var ekey = SharedLib.identifyKey(true);
-                        SharedLib.printKey(ekey);
+                        var ekey = UserInteractionService.identifyKeyType(true);
+                        UserInteractionService.printKey(ekey);
                         encode(ekey, inputFile, encodedFile);
                         break;  
                     case 2:
-                        var dkey = SharedLib.inputKey();
+                        var dkey = UserInteractionService.inputKey();
                         decode(dkey, encodedFile, decodedFile);
                         break;
                     case 9:
@@ -69,7 +70,7 @@ namespace cryptography.HistoricCiphers
                     replace = (char)(i+96);
                 }
 
-                var llocs = SharedLib.GetCharIndexInString(osb.ToString(), find);
+                var llocs = StringOperationsService.getCharIndexInString(osb.ToString(), find);
 
                 foreach (var lloc in llocs)
                 {

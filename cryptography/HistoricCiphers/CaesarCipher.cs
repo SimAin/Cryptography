@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using cryptography.Models;
+using cryptography.Services;
 
 namespace cryptography.HistoricCiphers
 {
@@ -14,13 +15,13 @@ namespace cryptography.HistoricCiphers
         }
         
         public override void run(string inputFile = "files/input.txt", string encodedFile = "files/output.txt", string decodedFile = "files/decoded.txt"){
-            SharedLib.printCipherName("Caesar Cipher");
-            SharedLib.printCipherMenu();
+            UserInteractionService.printCipherName("Caesar Cipher");
+            UserInteractionService.printCipherMenu();
 
             var option = Console.ReadLine();
-            if (SharedLib.validateOption(option, new[] {1,2,9})){
+            if (UserInteractionService.validateOption(option, new[] {1,2,9})){
                 var optionValue = int.Parse(option);
-                int skip = SharedLib.inputIntKey();
+                int skip = UserInteractionService.inputIntKey();
                 switch (optionValue)
                 {
                     case 1:
@@ -56,7 +57,7 @@ namespace cryptography.HistoricCiphers
 
             for (int i = 1; i <= 26; i++)
             {
-                var ulocs = SharedLib.GetCharIndexInString(osb.ToString(), (char)(i+64));
+                var ulocs = StringOperationsService.getCharIndexInString(osb.ToString(), (char)(i+64));
 
                 foreach (var uloc in ulocs)
                 {
@@ -69,7 +70,7 @@ namespace cryptography.HistoricCiphers
                     }
                 }
 
-                var llocs = SharedLib.GetCharIndexInString(osb.ToString(), (char)(i+96));
+                var llocs = StringOperationsService.getCharIndexInString(osb.ToString(), (char)(i+96));
 
                 foreach (var lloc in llocs)
                 {
