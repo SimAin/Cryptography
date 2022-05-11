@@ -26,7 +26,7 @@ namespace cryptography.HistoricCiphers
                     case 1:
                         //Identify key allows selection of random key or phrase key.
                         var key = UserInteractionService.identifyKeyType(true);
-                        var ekey = processKey(key);
+                        var ekey = KeyGenerationService.generatePlayfairKey(key);
                         printKey(key, ekey);
                         encode(ekey, inputFile, encodedFile);
                         break;  
@@ -35,7 +35,7 @@ namespace cryptography.HistoricCiphers
                         Console.WriteLine("Enter key phrase: ");
                         var phrase = Console.ReadLine();
                         var inputKey = KeyGenerationService.generatePhraseKey(phrase, true);
-                        var dkey = processKey(inputKey);
+                        var dkey = KeyGenerationService.generatePlayfairKey(inputKey);
                         decode(dkey, encodedFile, decodedFile);
                         break;
                     case 9:
@@ -207,7 +207,7 @@ namespace cryptography.HistoricCiphers
         /// </summary>
         /// <param name="csb"></param>
         /// <returns></returns>
-        private static List<KeyValuePair<char,char>> eSplitMessage (StringBuilder csb)
+        public static List<KeyValuePair<char,char>> eSplitMessage (StringBuilder csb)
         {
             var couplets = new List<KeyValuePair<char, char>>();
             var charList = csb.ToString().ToCharArray();
@@ -243,31 +243,6 @@ namespace cryptography.HistoricCiphers
             return couplets;
         }
 
-        /// <summary>
-        /// Converts input key into playfair key (5x5 grid).
-        /// </summary>
-        /// <param name="randomKey"></param>
-        /// <returns></returns>
-        private char[,] processKey(List<char> randomKey)
-        {
-            var key = new char[5,5];
-            var counter = 0;
-            for (int i = 0; i < 5; i++)
-            {
-                for (int j = 0; j < 5; j++)
-                {
-                    if (randomKey[counter] != 'j'){
-                        key[i,j] = randomKey[counter];
-                    } else if (randomKey[counter] == 'j' && counter != (randomKey.Count -1)){
-                        counter++;
-                        key[i,j] = randomKey[counter];
-                    }
-                    counter++;
-                }
-            }
-
-            return key;
-        }
 
         /// <summary>
         /// Console output - Helper.
