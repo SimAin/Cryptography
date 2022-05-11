@@ -36,18 +36,16 @@ namespace cryptography.Services
 
             return key;
         }
-        
+
         /// <summary>
         /// Generates a phrase based key given user input for the phrase. 
         /// </summary>
+        /// <param name="phrase"></param>
         /// <param name="fullAlpha"></param>
         /// <returns></returns>
-        public static List<char> generatePhraseKey(bool fullAlpha)
+        public static List<char> generatePhraseKey(string phrase, bool fullAlpha)
         {
             var key = new List<char>();
-
-            Console.WriteLine("Enter key phrase: ");
-            var phrase = Console.ReadLine();
 
             char[] charList = new char[phrase.Length];
  

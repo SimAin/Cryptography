@@ -32,7 +32,9 @@ namespace cryptography.HistoricCiphers
                         break;  
                     case 2:
                         //Generate phrase key used to make key from phrase or take full random key.
-                        var inputKey = KeyGenerationService.generatePhraseKey((true));
+                        Console.WriteLine("Enter key phrase: ");
+                        var phrase = Console.ReadLine();
+                        var inputKey = KeyGenerationService.generatePhraseKey(phrase, true);
                         var dkey = processKey(inputKey);
                         decode(dkey, encodedFile, decodedFile);
                         break;
@@ -170,7 +172,7 @@ namespace cryptography.HistoricCiphers
         /// </summary>
         /// <param name="inputMessage"></param>
         /// <returns></returns>
-        private List<KeyValuePair<char, char>> prepMessage (string inputMessage)
+        public static List<KeyValuePair<char, char>> prepMessage (string inputMessage)
         {
             var osb = new StringBuilder(inputMessage.ToLower());
             var csb = new StringBuilder(inputMessage.ToLower());
@@ -190,7 +192,6 @@ namespace cryptography.HistoricCiphers
             var chararray = osb.ToString().ToCharArray();
             for (int i = 0; i < chararray.Length; i++)
             {
-                
                 if(!Char.IsLetter(chararray[i])){
                     csb.Remove(i-counter,1);
                     counter++;
@@ -206,7 +207,7 @@ namespace cryptography.HistoricCiphers
         /// </summary>
         /// <param name="csb"></param>
         /// <returns></returns>
-        private List<KeyValuePair<char,char>> eSplitMessage (StringBuilder csb)
+        private static List<KeyValuePair<char,char>> eSplitMessage (StringBuilder csb)
         {
             var couplets = new List<KeyValuePair<char, char>>();
             var charList = csb.ToString().ToCharArray();
