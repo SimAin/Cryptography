@@ -25,8 +25,9 @@ namespace cryptography.HistoricCiphers
                 switch (optionValue)
                 {
                     case 1:
-
-                        var keyPhrase = KeyGenerationService.generatePhraseKey(false);
+                        Console.WriteLine("Enter key phrase: ");
+                        var phrase = Console.ReadLine();
+                        var keyPhrase = KeyGenerationService.generatePhraseKey(phrase, false);
                         encode(keyPhrase, inputFile, encodedFile);
                         break;  
                     case 2:

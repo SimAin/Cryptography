@@ -36,24 +36,24 @@ namespace cryptography.HistoricCiphers
             }
         }
 
-        public void encode (int skip, string readFromFile, string writeToFile) {
+        private static void encode (int skip, string readFromFile, string writeToFile) {
             var fileString = File.ReadAllText(readFromFile);
-            var output = replaceVals(fileString, skip);
+            var output = replaceValues(fileString, skip);
             Console.WriteLine(output);
             File.WriteAllTextAsync(writeToFile, output);
         }
 
-        private void decode (int skip, string readFromFile, string writeToFile) {
+        private static void decode (int skip, string readFromFile, string writeToFile) {
             var fileString = File.ReadAllText(readFromFile);
-            var output = replaceVals(fileString, 26-skip);
+            var output = replaceValues(fileString, 26-skip);
             Console.WriteLine(output);
             File.WriteAllTextAsync(writeToFile, output);
         }
 
-        private static string replaceVals(string fileString, int skip){
+        public static string replaceValues(string fileString, int skip){
             
-            StringBuilder osb = new StringBuilder(fileString);
-            StringBuilder csb = new StringBuilder(fileString);
+            var osb = new StringBuilder(fileString);
+            var csb = new StringBuilder(fileString);
 
             for (int i = 1; i <= 26; i++)
             {

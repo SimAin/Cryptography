@@ -149,7 +149,9 @@ namespace cryptography.Services
                             key = KeyGenerationService.generateRandomKey();
                             break;
                         case 2:
-                            key = KeyGenerationService.generatePhraseKey(phraseFullAlpha);
+                            Console.WriteLine("Enter key phrase: ");
+                            var phrase = Console.ReadLine();
+                            key = KeyGenerationService.generatePhraseKey(phrase, phraseFullAlpha);
                             break;
                     }
                     valid = true;

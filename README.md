@@ -19,7 +19,6 @@ Add the text you wish to encode to the input file.
 The following list details the next steps for this application. 
 - Add required file structure to solution. 
 - Restructure and implement service layer for cipher functions. 
-- Refactor shared lib into service layer.
 - Add comprehensive unit test coverage.
 - Add better documentation to code.
 - Implement composite cipher.

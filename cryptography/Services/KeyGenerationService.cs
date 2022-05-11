@@ -36,18 +36,16 @@ namespace cryptography.Services
 
             return key;
         }
-        
+
         /// <summary>
         /// Generates a phrase based key given user input for the phrase. 
         /// </summary>
+        /// <param name="phrase"></param>
         /// <param name="fullAlpha"></param>
         /// <returns></returns>
-        public static List<char> generatePhraseKey(bool fullAlpha)
+        public static List<char> generatePhraseKey(string phrase, bool fullAlpha)
         {
             var key = new List<char>();
-
-            Console.WriteLine("Enter key phrase: ");
-            var phrase = Console.ReadLine();
 
             char[] charList = new char[phrase.Length];
  
@@ -69,6 +67,32 @@ namespace cryptography.Services
                 }
             }
             
+            return key;
+        }
+        
+        /// <summary>
+        /// Converts input key into playfair key (5x5 grid).
+        /// </summary>
+        /// <param name="randomKey"></param>
+        /// <returns></returns>
+        public static char[,] generatePlayfairKey(List<char> randomKey)
+        {
+            var key = new char[5,5];
+            var counter = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    if (randomKey[counter] != 'j'){
+                        key[i,j] = randomKey[counter];
+                    } else if (randomKey[counter] == 'j' && counter != (randomKey.Count -1)){
+                        counter++;
+                        key[i,j] = randomKey[counter];
+                    }
+                    counter++;
+                }
+            }
+
             return key;
         }
     }
