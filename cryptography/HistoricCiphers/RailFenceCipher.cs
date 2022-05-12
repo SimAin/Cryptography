@@ -44,7 +44,7 @@ namespace cryptography.HistoricCiphers
         /// <param name="writeToFile"></param>
         private void encode (int depth, string readFromFile, string writeToFile) {
             var fileString = File.ReadAllText(readFromFile);
-            var output = replaceValsE(fileString, depth);
+            var output = replaceValuesE(fileString, depth);
             Console.WriteLine(output);
             File.WriteAllTextAsync(writeToFile, output);
         }
@@ -69,7 +69,7 @@ namespace cryptography.HistoricCiphers
         /// <param name="fileString"></param>
         /// <param name="depth"></param>
         /// <returns></returns>
-        private string replaceValsE(string fileString, int depth)
+        public static string replaceValuesE(string fileString, int depth)
         {
             var osb = new StringBuilder(fileString);
             var charList = osb.ToString().ToLower().ToCharArray();
@@ -141,7 +141,7 @@ namespace cryptography.HistoricCiphers
         /// <param name="length"></param>
         /// <param name="depth"></param>
         /// <returns></returns>
-        private StringBuilder[] createRailStructure(int length, int depth)
+        private static StringBuilder[] createRailStructure(int length, int depth)
         {
             StringBuilder[] csb = new StringBuilder[depth];
             var tempCharList = new char[length];
@@ -178,7 +178,7 @@ namespace cryptography.HistoricCiphers
         /// <param name="depth"></param>
         /// <param name="encode"></param>
         /// <returns>Rail structure with substituted input</returns>
-        private StringBuilder[] substituteValsIntoRailStructure(char[] charList, StringBuilder[] csb, int depth, bool encode)
+        private static StringBuilder[] substituteValsIntoRailStructure(char[] charList, StringBuilder[] csb, int depth, bool encode)
         {
             var depthCounter = 0;
             var movingDownRail = false;
@@ -213,7 +213,7 @@ namespace cryptography.HistoricCiphers
         /// <param name="csb"></param>
         /// <param name="depth"></param>
         /// <returns>Plaintext</returns>
-        private StringBuilder extractMessage (StringBuilder[] csb, int depth)
+        public StringBuilder extractMessage (StringBuilder[] csb, int depth)
         {
             var dsb = new StringBuilder(csb[1].Length);
             var depthCounter = 0;
@@ -243,7 +243,7 @@ namespace cryptography.HistoricCiphers
         /// <param name="depth"></param>
         /// <param name="movingDownRail"></param>
         /// <returns></returns>
-        private int getDepthCount(int depthCounter, int depth, bool movingDownRail)
+        public static int getDepthCount(int depthCounter, int depth, bool movingDownRail)
         {
             
             //If it is the lowest rail
@@ -281,7 +281,7 @@ namespace cryptography.HistoricCiphers
         /// <param name="depth"></param>
         /// <param name="movingDownRail"></param>
         /// <returns></returns>
-        private bool getRailDirection(int depthCounter, int depth, bool movingDownRail)
+        public static bool getRailDirection(int depthCounter, int depth, bool movingDownRail)
         {
             //If it is the lowest rail
             if (depthCounter == depth -1)

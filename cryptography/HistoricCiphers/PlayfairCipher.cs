@@ -232,7 +232,7 @@ namespace cryptography.HistoricCiphers
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        private List<KeyValuePair<char,char>> dSplitMessage (string message)
+        public static List<KeyValuePair<char,char>> dSplitMessage (string message)
         {
             var couplets = new List<KeyValuePair<char, char>>();
             var charList = message.ToCharArray();

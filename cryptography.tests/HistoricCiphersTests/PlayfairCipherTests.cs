@@ -96,6 +96,53 @@ namespace cryptography.tests.HistoricCiphersTests
             //Assert
             Assert.That(actualResult, Is.EquivalentTo(expectedResult));
         }
+        
+        /// <summary>
+        /// Tests dsplit method.
+        /// Method splits values into pairs. 
+        /// </summary>
+        [Test]
+        public void dSplitMessageTest()
+        {
+            //Arrange 
+            var inputValue = "A small message is just here to test the function.";
+            var input = new StringBuilder(inputValue.ToLower());
+            
+            var expectedResult = new List<KeyValuePair<char, char>>
+            {
+                new KeyValuePair<char, char>('a', ' '), 
+                new KeyValuePair<char, char>('s', 'm'), 
+                new KeyValuePair<char, char>('a', 'l'), 
+                new KeyValuePair<char, char>('l', ' '), 
+                new KeyValuePair<char, char>('m', 'e'),
+                new KeyValuePair<char, char>('s', 's'),
+                new KeyValuePair<char, char>('a', 'g'),
+                new KeyValuePair<char, char>('e', ' '),
+                new KeyValuePair<char, char>('i', 's'),
+                new KeyValuePair<char, char>(' ', 'j'),
+                new KeyValuePair<char, char>('u', 's'),
+                new KeyValuePair<char, char>('t', ' '),
+                new KeyValuePair<char, char>('h', 'e'),
+                new KeyValuePair<char, char>('r', 'e'),
+                new KeyValuePair<char, char>(' ', 't'),
+                new KeyValuePair<char, char>('o', ' '),
+                new KeyValuePair<char, char>('t', 'e'),
+                new KeyValuePair<char, char>('s', 't'),
+                new KeyValuePair<char, char>(' ', 't'),
+                new KeyValuePair<char, char>('h', 'e'),
+                new KeyValuePair<char, char>(' ', 'f'),
+                new KeyValuePair<char, char>('u', 'n'),
+                new KeyValuePair<char, char>('c', 't'),
+                new KeyValuePair<char, char>('i', 'o'),
+                new KeyValuePair<char, char>('n', '.'),
+            };
+            
+            //Act
+            var actualResult = PlayfairCipher.dSplitMessage(inputValue.ToLower());
+           
+            //Assert
+            Assert.That(actualResult, Is.EquivalentTo(expectedResult));
+        }
 
         [Test]
         [TestCase('g','h','y','a')]
