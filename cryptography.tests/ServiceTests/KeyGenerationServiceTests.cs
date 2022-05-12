@@ -80,5 +80,30 @@ namespace cryptography.tests.ServiceTests
             //Assert
             Assert.That(randomKey, Is.EquivalentTo(expectedResult));
         }
+
+        /// <summary>
+        /// Validate playfair key method transforms key into char[5,5] format.
+        /// </summary>
+        [Test]
+        public void generatePlayfairKeyTest()
+        {
+            //Arrange
+            var inputKey = "thelazydogbcfijkmnpqrsuvwx".ToCharArray().ToList();
+            var expectedResult = new[,]
+            {
+                {'t','h','e','l','a'},
+                {'z','y','d','o','g'},
+                {'b','c','f','i','k'},
+                {'m','n','p','q','r'},
+                {'s','u','v','w','x'}
+            };
+            
+            //Act
+            var actualResult = KeyGenerationService.generatePlayfairKey(inputKey);
+            
+            //Assert
+            Assert.That(actualResult, Is.EqualTo(expectedResult));
+
+        }
     }
 }
