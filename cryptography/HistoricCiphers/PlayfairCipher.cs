@@ -104,7 +104,7 @@ namespace cryptography.HistoricCiphers
         /// <param name="key"></param>
         /// <param name="encrypt"></param>
         /// <returns></returns>
-        private KeyValuePair<char,char> replacePair(KeyValuePair<char,char> pair, char[,] key, bool encrypt) 
+        public static KeyValuePair<char,char> replacePair(KeyValuePair<char,char> pair, char[,] key, bool encrypt) 
         {
             var first = new KeyValuePair<int, int>();
             var second = new KeyValuePair<int, int>();
@@ -143,7 +143,7 @@ namespace cryptography.HistoricCiphers
             //Same Row
             if (first.Key == second.Key){
                 if (first.Value != checkEdge && second.Value != checkEdge){
-                    updatedPair = new KeyValuePair<char, char>(key[first.Key, first.Value+shift],key[second.Key, second.Value-+shift]);
+                    updatedPair = new KeyValuePair<char, char>(key[first.Key, first.Value+shift],key[second.Key, second.Value+shift]);
                 } else if(first.Value == checkEdge){
                     updatedPair = new KeyValuePair<char, char>(key[first.Key, rollEdge],key[second.Key, second.Value+shift]);
                 } else if (second.Value == checkEdge){

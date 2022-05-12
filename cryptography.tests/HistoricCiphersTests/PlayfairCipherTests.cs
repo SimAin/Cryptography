@@ -96,5 +96,67 @@ namespace cryptography.tests.HistoricCiphersTests
             //Assert
             Assert.That(actualResult, Is.EquivalentTo(expectedResult));
         }
+
+        [Test]
+        [TestCase('g','h','y','a')]
+        [TestCase('d','f','f','p')]
+        [TestCase('a','x','g','a')]
+        [TestCase('q','r','r','m')]
+        [TestCase('h','a','e','t')]
+        [TestCase('v','e','e','d')]
+        [TestCase('g','z','z','y')]
+        [TestCase('n','q','p','r')]
+        public void replacePairEncryptTest(char keyToReplace, char valueToReplace, char expectedKey, char expectedValue)
+        {
+            //Arrange
+            var pairToReplace = new KeyValuePair<char, char>(keyToReplace,valueToReplace);
+            var key = new[,]
+            {
+                {'t','h','e','l','a'},
+                {'z','y','d','o','g'},
+                {'b','c','f','i','k'},
+                {'m','n','p','q','r'},
+                {'s','u','v','w','x'}
+            };
+            var expectedResult = new KeyValuePair<char, char>(expectedKey, expectedValue);
+            
+            //Act
+            var actualResult = PlayfairCipher.replacePair(pairToReplace, key, true);
+
+            //Assert
+            Assert.AreEqual(actualResult.Key, expectedResult.Key);
+            Assert.AreEqual(actualResult.Value, expectedResult.Value);
+        }
+        
+        [Test]
+        [TestCase('y','a','g','h')]
+        [TestCase('f','p','d','f')]
+        [TestCase('g','a','a','x')]
+        [TestCase('r','m','q','r')]
+        [TestCase('e','t','h','a')]
+        [TestCase('e','d','v','e')]
+        [TestCase('z','y','g','z')]
+        [TestCase('p','r','n','q')]
+        public void replacePairDecryptTest(char keyToReplace, char valueToReplace, char expectedKey, char expectedValue)
+        {
+            //Arrange
+            var pairToReplace = new KeyValuePair<char, char>(keyToReplace,valueToReplace);
+            var key = new[,]
+            {
+                {'t','h','e','l','a'},
+                {'z','y','d','o','g'},
+                {'b','c','f','i','k'},
+                {'m','n','p','q','r'},
+                {'s','u','v','w','x'}
+            };
+            var expectedResult = new KeyValuePair<char, char>(expectedKey, expectedValue);
+            
+            //Act
+            var actualResult = PlayfairCipher.replacePair(pairToReplace, key, false);
+
+            //Assert
+            Assert.AreEqual(actualResult.Key, expectedResult.Key);
+            Assert.AreEqual(actualResult.Value, expectedResult.Value);
+        }
     }
 }
