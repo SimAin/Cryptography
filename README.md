@@ -6,20 +6,15 @@ This project was created as a learning exercise to better understand cryptograph
 
 ## Running the application
 
-To run add files dir in Cryptography/cryptography. 
-Inside this dir add the following text files:
-- decoded.txt
-- output.txt
-- input.txt
-
-Add the text you wish to encode to the input file. 
+Add the text you wish to encode to the files/input.txt file. 
+Following the encoding of your message the result will be written to the files/output.txt
+When decoding a message, the output will be written to the files/decoded.txt
 
 ## To do
 
 The following list details the next steps for this application. 
-- Add required file structure to solution. 
-- Restructure and implement service layer for cipher functions. 
+
 - Add comprehensive unit test coverage.
 - Add better documentation to code.
-- Implement composite cipher.
+- Implement composite cipher (Started on branch).
 - Implement fiestel cipher. 
