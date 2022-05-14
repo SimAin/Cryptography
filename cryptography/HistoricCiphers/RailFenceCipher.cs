@@ -78,7 +78,7 @@ namespace cryptography.HistoricCiphers
             var placeholderRailStructure = createRailStructure(charList.Length, depth);
 
             //Replace '_' with plaintext letters
-            var valuesInRailStructure = substituteValsIntoRailStructure(charList, placeholderRailStructure, depth, false);
+            var valuesInRailStructure = substituteValuesIntoRailStructure(charList, placeholderRailStructure, depth, false);
             
             //Output rails with chars for clarity. 
             var output = new StringBuilder(charList.Length);
@@ -141,7 +141,7 @@ namespace cryptography.HistoricCiphers
         /// <param name="length"></param>
         /// <param name="depth"></param>
         /// <returns></returns>
-        private static StringBuilder[] createRailStructure(int length, int depth)
+        public static StringBuilder[] createRailStructure(int length, int depth)
         {
             StringBuilder[] csb = new StringBuilder[depth];
             var tempCharList = new char[length];
@@ -166,7 +166,7 @@ namespace cryptography.HistoricCiphers
             }
 
             //Create rail structure of '.' and '_' of correct size.
-            var csb2 = substituteValsIntoRailStructure(tempCharList, csb, depth, false);
+            var csb2 = substituteValuesIntoRailStructure(tempCharList, csb, depth, false);
             return csb2;
         }
 
@@ -178,7 +178,7 @@ namespace cryptography.HistoricCiphers
         /// <param name="depth"></param>
         /// <param name="encode"></param>
         /// <returns>Rail structure with substituted input</returns>
-        private static StringBuilder[] substituteValsIntoRailStructure(char[] charList, StringBuilder[] csb, int depth, bool encode)
+        public static StringBuilder[] substituteValuesIntoRailStructure(char[] charList, StringBuilder[] csb, int depth, bool encode)
         {
             var depthCounter = 0;
             var movingDownRail = false;
@@ -213,7 +213,7 @@ namespace cryptography.HistoricCiphers
         /// <param name="csb"></param>
         /// <param name="depth"></param>
         /// <returns>Plaintext</returns>
-        public StringBuilder extractMessage (StringBuilder[] csb, int depth)
+        public static StringBuilder extractMessage (StringBuilder[] csb, int depth)
         {
             var dsb = new StringBuilder(csb[1].Length);
             var depthCounter = 0;
