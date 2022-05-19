@@ -13,7 +13,7 @@ namespace cryptography.Calculations
             var exit = false;
             do
             {
-                printMenu();
+                UserInteractionService.printCalculationsMenu();
                 var option = Console.ReadLine();
                 if (UserInteractionService.validateOption(option, new[] {1, 2, 3, 4, 9}))
                 {
@@ -80,7 +80,7 @@ namespace cryptography.Calculations
             return eea;
         }
 
-        private void eulersTotientFunction(int n)
+        public static int eulersTotientFunction(int n)
         {
             var count = 0;
             
@@ -95,14 +95,15 @@ namespace cryptography.Calculations
                 }
             }
             Console.WriteLine(count);
+            return count;
         }
         
-        private static int mod(int x, int m) {
+        public static int mod(int x, int m) {
             var r = x%m;
             return r<0 ? r+m : r;
         }
 
-        private static int gcd(int x, int y)
+        public static int gcd(int x, int y)
         {
             return euclidAlgorithm(x, y);
         }
@@ -117,16 +118,7 @@ namespace cryptography.Calculations
             return euclidAlgorithm(b, mod(a, b));
         }
 
-        private static void printMenu(){
-            Console.WriteLine("Select option: ");
-            Console.WriteLine("1. Euler's totient function - ϕ(n)");
-            Console.WriteLine("2. Greatest common divide GCD");
-            Console.WriteLine("3. Extended Euclid's algorithm ");
-            Console.WriteLine("4. Modulo calculator ");
-            Console.WriteLine("9. Exit");
-        }
-
-        private static void displayEeaResults(int a, int b, EeaResult result)
+        public static void displayEeaResults(int a, int b, EeaResult result)
         {
             Console.WriteLine("");
             Console.WriteLine("Calculation table: ");

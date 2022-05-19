@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using cryptography.Models;
 
 namespace cryptography.Services
 {
@@ -161,6 +162,15 @@ namespace cryptography.Services
             } while (!valid);
 
             return key;
+        }
+        
+        public static void printCalculationsMenu(){
+            Console.WriteLine("Select option: ");
+            Console.WriteLine("1. Euler's totient function - ϕ(n)");
+            Console.WriteLine("2. Greatest common divide GCD");
+            Console.WriteLine("3. Extended Euclid's algorithm ");
+            Console.WriteLine("4. Modulo calculator ");
+            Console.WriteLine("9. Exit");
         }
     }
 }
