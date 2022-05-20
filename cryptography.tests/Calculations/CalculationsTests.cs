@@ -1,3 +1,4 @@
+using cryptography.Models;
 using NUnit.Framework;
 using static cryptography.Calculations.Calculations;
 
@@ -43,6 +44,21 @@ namespace cryptography.tests.Calculations
            
             //Assert
             Assert.AreEqual(expectedResult, actualResult);
+        }
+        
+        [Test]
+        public static void extendedEuclidAlgorithmTests()
+        {
+            //Arrange 
+            var expectedResult = new EeaResult(3, -11, 14);
+            
+            //Act
+            var actualResult = extendedEuclidAlgorithm(99, 78);
+           
+            //Assert
+            Assert.AreEqual(expectedResult.d, actualResult.d);
+            Assert.AreEqual(expectedResult.x, actualResult.x);
+            Assert.AreEqual(expectedResult.y, actualResult.y);
         }
     }
 }

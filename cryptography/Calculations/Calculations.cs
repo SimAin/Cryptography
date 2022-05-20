@@ -47,7 +47,7 @@ namespace cryptography.Calculations
             } while (!exit);
         }
         
-        private static EeaResult extendedEuclidAlgorithm(int a, int b)
+        public static EeaResult extendedEuclidAlgorithm(int a, int b)
         {
             var eea = new EeaResult(0,1,1);
             
