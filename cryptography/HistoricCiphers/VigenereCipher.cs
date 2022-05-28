@@ -56,7 +56,7 @@ namespace cryptography.HistoricCiphers
             File.WriteAllTextAsync(writeToFile, output);
         }
 
-        private string replaceValues(string fileString, List<char> key, bool encrypt)
+        public string replaceValues(string fileString, List<char> key, bool encrypt)
         {
             var csb = new StringBuilder(fileString.ToLower());
             var messageChars = fileString.ToLower().ToCharArray();
