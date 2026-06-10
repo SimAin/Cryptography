@@ -46,7 +46,7 @@ namespace cryptography.HistoricCiphers
             var fileString = File.ReadAllText(readFromFile);
             var output = replaceValuesE(fileString, depth);
             Console.WriteLine(output);
-            File.WriteAllTextAsync(writeToFile, output);
+            File.WriteAllText(writeToFile, output);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace cryptography.HistoricCiphers
             var fileString = File.ReadAllText(readFromFile);
             var output = replaceValsD(fileString, depth);
             Console.WriteLine(output);
-            File.WriteAllTextAsync(writeToFile, output);
+            File.WriteAllText(writeToFile, output);
         }
 
         /// <summary>

@@ -56,7 +56,7 @@ namespace cryptography.HistoricCiphers
             var message = prepMessage(fileString);
             var output = replaceValues(message, key, true);
             printMessage(output, true);
-            File.WriteAllTextAsync(writeToFile, output);
+            File.WriteAllText(writeToFile, output);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace cryptography.HistoricCiphers
             var message = dSplitMessage(fileString);
             var output = replaceValues(message, key, false);
             printMessage(output, false);
-            File.WriteAllTextAsync(writeToFile, output);
+            File.WriteAllText(writeToFile, output);
         }
 
         /// <summary>

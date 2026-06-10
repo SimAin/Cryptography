@@ -43,7 +43,7 @@ namespace cryptography.HistoricCiphers
             var fileString = File.ReadAllText(readFromFile);
             var output = replaceVals(fileString, key);
             Console.WriteLine(output);
-            File.WriteAllTextAsync(writeToFile, output);
+            File.WriteAllText(writeToFile, output);
         }
         
         private void decode (int key, string readFromFile, string writeToFile) {
@@ -52,7 +52,7 @@ namespace cryptography.HistoricCiphers
             key = fileString.Length / key;
             var output = replaceVals(fileString, key);
             Console.WriteLine(output);
-            File.WriteAllTextAsync(writeToFile, output);
+            File.WriteAllText(writeToFile, output);
         }
 
         private string replaceVals(string fileString, int key)

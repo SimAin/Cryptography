@@ -45,7 +45,7 @@ namespace cryptography.HistoricCiphers
             var key = generateFullKey(fileString.Length, keyPhrase);
             var output = replaceValues(fileString, key, true);
             Console.WriteLine(output);
-            File.WriteAllTextAsync(writeToFile, output);
+            File.WriteAllText(writeToFile, output);
         }
         private void decode (List<char> keyPhrase, string readFromFile, string writeToFile) {
             
@@ -53,7 +53,7 @@ namespace cryptography.HistoricCiphers
             var key = generateFullKey(fileString.Length, keyPhrase);
             var output = replaceValues(fileString, key, false);
             Console.WriteLine(output);
-            File.WriteAllTextAsync(writeToFile, output);
+            File.WriteAllText(writeToFile, output);
         }
 
         private string replaceValues(string fileString, List<char> key, bool encrypt)
