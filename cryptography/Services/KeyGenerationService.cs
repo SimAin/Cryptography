@@ -18,13 +18,9 @@ namespace cryptography.Services
 
             do
             {
-                RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
-                var byteArray = new byte[4];
-                provider.GetBytes(byteArray);
+                var randomInteger = RandomNumberGenerator.GetInt32(1, 27);
 
-                var randomInteger = (BitConverter.ToInt32(byteArray, 0) % 26) + 1;
-
-                if (!keyPlacement.Contains(randomInteger) && (randomInteger < 27 && (randomInteger > 0))) {
+                if (!keyPlacement.Contains(randomInteger)) {
                     keyPlacement.Add(randomInteger);
                 }
             } while (keyPlacement.Count < 26);
