@@ -40,14 +40,14 @@ namespace cryptography.HistoricCiphers
             var fileString = File.ReadAllText(readFromFile);
             var output = replaceValues(fileString, skip);
             Console.WriteLine(output);
-            File.WriteAllTextAsync(writeToFile, output);
+            File.WriteAllText(writeToFile, output);
         }
 
         private static void decode (int skip, string readFromFile, string writeToFile) {
             var fileString = File.ReadAllText(readFromFile);
             var output = replaceValues(fileString, 26-skip);
             Console.WriteLine(output);
-            File.WriteAllTextAsync(writeToFile, output);
+            File.WriteAllText(writeToFile, output);
         }
 
         public static string replaceValues(string fileString, int skip){
